@@ -1,0 +1,24 @@
+
+seed: fixed
+
+rSampling: [1, 2, 4]
+
+kSampling: [4, 5, 6]
+
+nOccupied: 43
+
+nUnoccupied: 5
+
+cISDF: 30.0
+
+cvtMaximumSteps: 200
+
+cvtConvergenceTolerance: 1e-5
+
+nISDFOccupiedUnoccupied: 10
+
+nISDFOccupied: 10
+
+nISDFUnoccupied: 20
+
+nLanczosIterations: 300

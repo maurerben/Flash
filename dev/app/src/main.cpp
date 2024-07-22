@@ -1,20 +1,23 @@
 #include <iostream>
+#include <string>
+#include <tuple>
+#include <vector>
 
 #include "config/config.h"
 #include "constants/constants.h"
+#include <yaml-cpp/yaml.h>
 
 int main() {
-    std::cout << "Hello, World!" << std::endl;
 
-    // Define reference data
-    const config::grid RGridRef{1, 2, 3};
+    // Construct YAML::Node from reference data
+    YAML::Node configYaml = YAML::LoadFile("config.yaml");
+    
+    
+    // Parse test configuration from YAML::Node
+    config::Config configuration = config::Config(configYaml, config::defaultConfig);
 
-    // Define yaml node 
-    YAML::Node ConfigNode = YAML::Load(
-        "{RGrid: [1, 2, 3]}"
-    );
 
-    config::AppConfig TestConfig(ConfigNode);
+    configuration.print_to_stdout();
 
-    std::cout << std::get<0>(TestConfig.RGrid) << std::get<1>(TestConfig.RGrid) <<std::get<2>(TestConfig.RGrid) <<std::endl;
+
 }

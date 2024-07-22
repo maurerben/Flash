@@ -1,5 +1,3 @@
-# cmake/ConfigDependencies.cmake
-
 include(FetchContent)
 
 # Fetch yaml-cpp

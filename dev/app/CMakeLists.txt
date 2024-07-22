@@ -5,4 +5,5 @@ target_link_libraries(app
     PRIVATE 
         config 
         constants
+        yaml-cpp
 )
