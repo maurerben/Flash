@@ -15,10 +15,10 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v3
+      uses: actions/checkout@main
 
     - name: Set up C++ environment
-      run: aminya/setup-cpp@v
+      run: aminya/setup-cpp@v1
 
     - name: Install dependencies
       run: sudo apt-get update && sudo apt-get install -y 
