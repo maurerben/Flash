@@ -1,0 +1,39 @@
+name: Flash CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Set up C++ environment
+      uses: actions/setup-cpp@v2
+      with:
+        compiler: gcc
+
+    - name: Install dependencies
+      run: sudo apt-get update && sudo apt-get install -y 
+        cmake libyaml-cpp-dev catch2 libeigen3-dev doxygen libhdf5-dev
+
+    - name: Create build directory
+      run: mkdir build
+
+    - name: Configure CMake
+      run: cmake -S . -B build
+
+    - name: Build the project
+      run: cmake --build build
+
+    - name: Run tests
+      run: cd build && ctest --output-on-failure
