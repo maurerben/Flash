@@ -9,28 +9,18 @@
 #include <string>
 #include <cstdint>
 #include <complex>
+#include <Eigen/Dense>
 
 #include <yaml-cpp/yaml.h>
 
-namespace typ{
+namespace flash{
 
-    /// 3D sampling as number of points per lattice direction.
-    typedef std::array<std::size_t, 3> SizeTriple;
+    typedef std::size_t size;
+    typedef std::double_t real;
+    typedef std::complex<real> complex;
 
-    /**
-     * @brief Transform SizeTriple to YAML::Node.
-     */
-    YAML::Node sizeTripleToNode(const SizeTriple &sizeTriple);
-
-    /**
-     * @brief Transform YAML::Node to SizeTriple.
-     */
-    SizeTriple nodeToSizeTriple(const YAML::Node &node);
-
-    /**
-     * @brief Transform SizeTriple to string.
-     */
-    std::string sizeTripleToString(const SizeTriple &sizeTriple);
+    typedef Eigen::Matrix<complex, Eigen::Dynamic, Eigen::Dynamic> DMatrix;
+    typedef Eigen::Matrix<real, Eigen::Dynamic, Eigen::Dynamic> CMatrix;
 
 
 

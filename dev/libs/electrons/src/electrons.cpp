@@ -7,10 +7,10 @@
 using namespace electron;
 
 
-ElectronSystem::ElectronSystem(const DMatrix $energies, const DMatrix $occupation, const std::size_t &nKPoints) {
+// ElectronSystem::ElectronSystem(const DMatrix $energies, const DMatrix $occupation, const std::size_t &nKPoints) {
 
     
 
 
-}
+// }
 

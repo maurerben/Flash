@@ -1,24 +1,9 @@
-
-seed: fixed
-
-rSampling: [1, 2, 4]
-
-kSampling: [4, 5, 6]
-
-nOccupied: 43
-
-nUnoccupied: 5
-
-cISDF: 30.0
-
-cvtMaximumSteps: 200
-
-cvtConvergenceTolerance: 1e-5
-
-nISDFOccupiedUnoccupied: 10
-
-nISDFOccupied: 10
-
-nISDFUnoccupied: 20
-
-nLanczosIterations: 300
+n_isdf_vexc: 3
+n_isdf_wscr_occupied: 4
+n_isdf_wscr_unoccupied: 5
+max_lanczos_iterations: 200
+omega_range: [1.0, 2.0]
+n_omega: 1500
+max_cvt_iterations: 1000
+cvt_convergence_criterium: 1.e-5
+seed_source: clock
