@@ -1,0 +1,15 @@
+Checks: >
+  - readability-*
+  - modernize-*
+  - hicpp-*
+  - google-*
+  - cppcoreguidelines-*
+  - clang-analyzer-*
+  - performance-*
+  - bugprone-*
+  - misc-*
+  - -* # Disable other checks
+
+WarningsAsErrors: ''
+HeaderFilterRegex: '.*'
+AnalyzeTemporaryDtors: false

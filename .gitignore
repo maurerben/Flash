@@ -37,3 +37,6 @@ build/*
 # VSCode 
 .idea/
 .vscode/
+
+# Test artifacts
+Testing/

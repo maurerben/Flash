@@ -2,11 +2,11 @@
 
 #include <catch2/catch.hpp>
 #include <cstdint>
-#include <config/config.h>
+#include <data_processing/config.hpp>
 
 using namespace flash;
 
-TEST_CASE("Test Config construction from a valid YAML::node that defines all parameters.", "[valid-config]"){
+TEST_CASE("Test Config construction from a valid YAML::node that defines all parameters.", "[valid-config]") {
     // Define reference configuration
     YAML::Node validNode;
     validNode["n_isdf_vexc"] = 2;
@@ -35,7 +35,8 @@ TEST_CASE("Test Config construction from a valid YAML::node that defines all par
     REQUIRE(params.seed_source == Seed::fixed);
 }
 
-TEST_CASE("Test Config construction from a valid YAML::node that defines not all parameters.", "[valid-config-default]"){
+TEST_CASE("Test Config construction from a valid YAML::node that defines not all parameters.",
+          "[valid-config-default]") {
     // Define reference configuration
     YAML::Node validNodeDefaults;
     validNodeDefaults["n_isdf_vexc"] = 2;
@@ -61,7 +62,8 @@ TEST_CASE("Test Config construction from a valid YAML::node that defines not all
     REQUIRE(params.seed_source == Seed::clock);
 }
 
-TEST_CASE("Test Config construction from an invalid YAML::node does not define all mandatory parameters.", "[invalid-config-missing-param]"){
+TEST_CASE("Test Config construction from an invalid YAML::node does not define all mandatory parameters.",
+          "[invalid-config-missing-param]") {
     // Define reference configuration
     YAML::Node invalidNodeMissingKey;
     invalidNodeMissingKey["n_isdf_wscr_occupied"] = 3;
@@ -74,7 +76,7 @@ TEST_CASE("Test Config construction from an invalid YAML::node does not define a
     auto bla = Config(invalidNodeMissingKey);
     REQUIRE_THROWS_AS(Config(invalidNodeMissingKey), MissingKeyException);
 
-     // Define reference configuration
+    // Define reference configuration
     invalidNodeMissingKey.reset();
     invalidNodeMissingKey["n_isdf_vexc"] = 2;
     invalidNodeMissingKey["n_isdf_wscr_unoccupied"] = 4;
@@ -85,7 +87,7 @@ TEST_CASE("Test Config construction from an invalid YAML::node does not define a
     // Verify that the correct exception is thrown
     REQUIRE_THROWS_AS(Config(invalidNodeMissingKey), MissingKeyException);
 
-     // Define reference configuration
+    // Define reference configuration
     invalidNodeMissingKey.reset();
     invalidNodeMissingKey["n_isdf_vexc"] = 2;
     invalidNodeMissingKey["n_isdf_wscr_occupied"] = 3;
@@ -96,7 +98,7 @@ TEST_CASE("Test Config construction from an invalid YAML::node does not define a
     // Verify that the correct exception is thrown
     REQUIRE_THROWS_AS(Config(invalidNodeMissingKey), MissingKeyException);
 
-     // Define reference configuration
+    // Define reference configuration
     invalidNodeMissingKey.reset();
     invalidNodeMissingKey["n_isdf_vexc"] = 2;
     invalidNodeMissingKey["n_isdf_wscr_occupied"] = 3;
@@ -107,7 +109,7 @@ TEST_CASE("Test Config construction from an invalid YAML::node does not define a
     // Verify that the correct exception is thrown
     REQUIRE_THROWS_AS(Config(invalidNodeMissingKey), MissingKeyException);
 
-     // Define reference configuration
+    // Define reference configuration
     invalidNodeMissingKey.reset();
     invalidNodeMissingKey["n_isdf_vexc"] = 2;
     invalidNodeMissingKey["n_isdf_wscr_occupied"] = 3;
@@ -117,7 +119,7 @@ TEST_CASE("Test Config construction from an invalid YAML::node does not define a
     // Verify that the correct exception is thrown
     REQUIRE_THROWS_AS(Config(invalidNodeMissingKey), MissingKeyException);
 
-     // Define reference configuration
+    // Define reference configuration
     invalidNodeMissingKey.reset();
     invalidNodeMissingKey["n_isdf_vexc"] = 2;
     invalidNodeMissingKey["n_isdf_wscr_occupied"] = 3;

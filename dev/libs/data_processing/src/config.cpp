@@ -2,142 +2,124 @@
 // Created by benedikt on 29.03.24.
 //
 
-#include "config/config.h"
+#include <data_processing/config.hpp>
 
 using namespace flash;
 
-inline std::map<Seed, std::string> seedToString{
-        { Seed::fixed, "fixed" },
-        { Seed::clock, "clock" }
-    };
+inline std::map<Seed, std::string> seedToString{{Seed::fixed, "fixed"}, {Seed::clock, "clock"}};
 
-std::map<std::string, Seed> stringToSeed{
-        { "fixed", Seed::fixed },
-        { "clock", Seed::clock }
-    };
+std::map<std::string, Seed> stringToSeedDefault{{"fixed", Seed::fixed}, {"clock", Seed::clock}};
 
-Seed nodeToSeed(const YAML::Node &node, const std::string &key, const Seed &defaultValue, const std::map<std::string, Seed> &stringToSeed = stringToSeed){
-    try{
+Seed nodeToSeed(const YAML::Node &node, const std::string &key, const Seed &defaultValue,
+                const std::map<std::string, Seed> &stringToSeed = stringToSeedDefault) {
+    try {
         return stringToSeed.at(node[key].as<std::string>());
-    }
-    catch(YAML::InvalidNode){
+    } catch (YAML::InvalidNode) {
         return defaultValue;
-    }
-    catch(std::out_of_range){
-        //throw InvalidConfigurationException(std::format("{} is not a valid option for seed.", string));
+    } catch (std::out_of_range) {
+        // throw InvalidConfigurationException(std::format("{} is not a valid option for seed.", string));
         throw InvalidConfigurationException("Invalid option for seed.");
     }
 }
 
-template <typename T> T nodeToValue(const YAML::Node &node, bool (*rule)(T value), std::string msg) {
+template <typename T>
+T nodeToValue(const YAML::Node &node, bool (*rule)(T value), std::string msg) {
     auto value = node.as<T>();
-    if (!rule(value)){
+    if (!rule(value)) {
         throw InvalidConfigurationException(msg);
     }
     return value;
 }
 
-template <typename T> T nodeToValueWithDefault(const YAML::Node &node, const std::string &key, const T &defaultValue, bool (*rule)(T value), std::string msg) {
+template <typename T>
+T nodeToValueWithDefault(const YAML::Node &node, const std::string &key, const T &defaultValue, bool (*rule)(T value),
+                         std::string msg) {
     T value;
-    try{
+    try {
         value = node[key].as<T>();
-    }
-    catch(YAML::InvalidNode){
+    } catch (YAML::InvalidNode) {
         return defaultValue;
     }
-    if (!rule(value)){
+    if (!rule(value)) {
         throw InvalidConfigurationException(msg);
     }
     return value;
 }
 
-template <typename T, size N> auto nodeToArray(const YAML::Node &node, bool (*rule)(T value), std::string msg) {
+template <typename T, size N>
+auto nodeToArray(const YAML::Node &node, bool (*rule)(T value), std::string msg) {
     std::array<T, N> values;
-    try{
+    try {
         size idx = 0;
-        for (auto element : node){
+        for (auto element : node) {
             values[idx] = node.as<T>();
         }
-    }
-    catch(YAML::InvalidNode){
+    } catch (YAML::InvalidNode) {
         throw InvalidConfigurationException(msg);
     }
-    if (!rule(values)){
+    if (!rule(values)) {
         throw InvalidConfigurationException(msg);
     }
     return values;
 }
 
-
-
-Config::Config(const YAML::Node &configYaml, const std::vector<std::string> &allowedKeys, const std::vector<std::string> &mandatoryKeys, const DefaultConfig &defaults) {
-    
+Config::Config(const YAML::Node &configYaml, const std::vector<std::string> &allowedKeys,
+               const std::vector<std::string> &mandatoryKeys, const DefaultConfig &defaults) {
     // extract keys from yaml node
     std::vector<std::string> keysInNode;
-    for (auto kv : configYaml){
+    for (auto kv : configYaml) {
         auto key = kv.first.as<std::string>();
         std::cout << key << std::endl;
         keysInNode.push_back(key);
     }
     // verify that all keys from keysInNode that are in allowedKeys
-    for (auto key : keysInNode){
-        if(!std::binary_search(allowedKeys.begin(), allowedKeys.end(), key, [](std::string string1, std::string string2){return string1 == string2;})) {
+    for (auto key : keysInNode) {
+        if (!std::binary_search(allowedKeys.begin(), allowedKeys.end(), key,
+                                [](std::string string1, std::string string2) { return string1 == string2; })) {
             throw InvalidKeyException("Invalid key in config.yaml.");
         }
     }
     // verify that keys from mandatoryKeys are in keysInNode
-    for (auto key : mandatoryKeys){
-        std::cout << key << " " << std::binary_search(keysInNode.begin(), keysInNode.end(), key, [](std::string string1, std::string string2){return string1 == string2;}) << std::endl;
-        if(!std::binary_search(keysInNode.begin(), keysInNode.end(), key, [](std::string string1, std::string string2){return string1 == string2;})) {
+    for (auto key : mandatoryKeys) {
+        std::cout << key << " "
+                  << std::binary_search(keysInNode.begin(), keysInNode.end(), key,
+                                        [](std::string string1, std::string string2) { return string1 == string2; })
+                  << std::endl;
+        if (!std::binary_search(keysInNode.begin(), keysInNode.end(), key,
+                                [](std::string string1, std::string string2) { return string1 == string2; })) {
             throw MissingKeyException("Mandatory key are missing.");
         }
     }
-    
-    try{
+
+    try {
         n_isdf_vexc = nodeToValue<size>(
-            configYaml["n_isdf_vexc"], [](size value){return (value > 0);},
-            "n_isdf_vexc in config.yml is errornous."
-        );
+            configYaml["n_isdf_vexc"], [](size value) { return (value > 0); },
+            "n_isdf_vexc in config.yml is errornous.");
         n_isdf_wscr_occupied = nodeToValue<size>(
-            configYaml["n_isdf_wscr_occupied"], [](size value){return (value > 0);},
-            "n_isdf_wscr_occupied in config.yml is errornous."
-        );
+            configYaml["n_isdf_wscr_occupied"], [](size value) { return (value > 0); },
+            "n_isdf_wscr_occupied in config.yml is errornous.");
         n_isdf_wscr_unoccupied = nodeToValue<size>(
-            configYaml["n_isdf_wscr_unoccupied"], [](size value){return (value > 0);},
-            "n_isdf_wscr_unoccupied in config.yml is errornous."
-        );
+            configYaml["n_isdf_wscr_unoccupied"], [](size value) { return (value > 0); },
+            "n_isdf_wscr_unoccupied in config.yml is errornous.");
         max_lanczos_iterations = nodeToValue<size>(
-            configYaml["max_lanczos_iterations"], [](size value){return (value > 0);},
-            "max_lanczos_iterations in config.yml is errornous."
-        );
+            configYaml["max_lanczos_iterations"], [](size value) { return (value > 0); },
+            "max_lanczos_iterations in config.yml is errornous.");
         omega_range = nodeToValue<std::array<real, 2>>(
-            configYaml["omega_range"], [](std::array<real, 2> value){return (value[0] < value[1]);},
-            "omega_range in config.yml is errornous."
-        );
+            configYaml["omega_range"], [](std::array<real, 2> value) { return (value[0] < value[1]); },
+            "omega_range in config.yml is errornous.");
         n_omega = nodeToValue<size>(
-            configYaml["n_omega"], [](size value){return (value > 0);},
-            "n_omega in config.yml is errornous."
-        );
+            configYaml["n_omega"], [](size value) { return (value > 0); }, "n_omega in config.yml is errornous.");
         max_cvt_iterations = nodeToValueWithDefault<size>(
-            configYaml, "max_cvt_iterations", defaults.maxCVTItereations, 
-            [](size value){return (value > 0);},
-            "max_cvt_iterations in config.yml is errornous."
-        );
+            configYaml, "max_cvt_iterations", defaults.maxCVTItereations, [](size value) { return (value > 0); },
+            "max_cvt_iterations in config.yml is errornous.");
         cvt_convergence_criterium = nodeToValueWithDefault<real>(
-            configYaml, "cvt_convergence_criterium", defaults.CVTConvergenceCriterium, 
-            [](real value){return (value > 0);},
-            "cvt_convergence_criterium in config.yml is errornous."
-        );
+            configYaml, "cvt_convergence_criterium", defaults.CVTConvergenceCriterium,
+            [](real value) { return (value > 0); }, "cvt_convergence_criterium in config.yml is errornous.");
         seed_source = nodeToSeed(configYaml, "seed_source", defaults.seedSource);
-    }
-    catch(InvalidConfigurationException ice){
+    } catch (InvalidConfigurationException ice) {
         throw ice;
     }
-
-    
 }
-
-
 
 // YAML::Node Config::toYamlNode(){
 //     YAML::Node node;
@@ -157,7 +139,6 @@ Config::Config(const YAML::Node &configYaml, const std::vector<std::string> &all
 //     return node;
 // }
 
-
 // void Config::print_to_stdout(){
 //     std::string seperator = ": ";
 //     std::cout<<keyToName.at(Key::seed)<< seperator << seedToString.at(seed) <<  std::endl;
@@ -173,4 +154,3 @@ Config::Config(const YAML::Node &configYaml, const std::vector<std::string> &all
 //     std::cout<<keyToName.at(Key::nISDFUnoccupied)<< seperator << nISDFUnoccupied << std::endl;
 //     std::cout<<keyToName.at(Key::nLanczosIterations)<< seperator << nLanczosIterations << std::endl;
 // }
-

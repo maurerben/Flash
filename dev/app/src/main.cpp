@@ -1,24 +1,21 @@
+#include <constants/constants.h>
+#include <yaml-cpp/yaml.h>
+
+#include <data_processing/config.hpp>
 #include <iostream>
 #include <string>
 #include <tuple>
 #include <vector>
 
-#include "config/config.h"
-#include "constants/constants.h"
-#include <yaml-cpp/yaml.h>
-
 using namespace flash;
 
 int main() {
-
-    //hi
-    // Construct YAML::Node from reference data
+    // hi
+    //  Construct YAML::Node from reference data
     YAML::Node configYaml = YAML::LoadFile("config.yaml");
-    
-    
-    // // Parse test configuration from YAML::Node
-    // Config config(configYaml);
 
+    // Parse test configuration from YAML::Node
+    Config config(configYaml);
 
     YAML::Node invalidNodeMissingKey;
     invalidNodeMissingKey["n_isdf_wscr_occupied"] = 3;
@@ -29,6 +26,4 @@ int main() {
     invalidNodeMissingKey["n_omega"] = 1000;
     // Verify that the correct exception is thrown
     auto bla = Config(invalidNodeMissingKey);
-
-
 }

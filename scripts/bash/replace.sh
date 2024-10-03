@@ -6,8 +6,6 @@ if [ "$#" -ne 3 ]; then
     exit 1
 fi
 
-
-
 # Arguments
 STRING_TO_REPLACE=$1
 NEW_STRING=$2

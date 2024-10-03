@@ -2,7 +2,7 @@
 add_subdirectory(types)
 
 # config
-add_subdirectory(config)
+add_subdirectory(data_processing)
 
 # constants
 add_subdirectory(constants)

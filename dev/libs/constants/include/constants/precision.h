@@ -7,11 +7,8 @@
 
 #include <cstdint>
 
-namespace precison{
-  inline constexpr int testConst = 3; 
+namespace precison {
+inline constexpr int testConst = 3;
 }
 
-
-
-
-#endif // PRECISION_H
+#endif  // PRECISION_H

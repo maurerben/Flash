@@ -1,7 +1,11 @@
 cmake_minimum_required(VERSION 3.29)
 project(lightning)
 
+# Set C++ standart
 set(CMAKE_CXX_STANDARD 20)
+
+# Generate a compile_commands.json
+include(cmake/ConfigClangTidy.cmake)
 
 # Enable testing
 enable_testing()
@@ -18,7 +22,6 @@ include(cmake/ConfigYamlCpp.cmake)
 # Include the Eigen  configuration file
 include(cmake/ConfigEigen.cmake)
 
-
 # Include libraries
 add_subdirectory(libs)
 
@@ -27,6 +30,7 @@ add_subdirectory(app)
 
 # Include tests
 add_subdirectory(tests)
+
 
 # Set compile options for different build types
 set(CMAKE_CXX_FLAGS_DEBUG "-g3 -O0 -tr")

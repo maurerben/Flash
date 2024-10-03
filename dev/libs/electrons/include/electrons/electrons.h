@@ -5,36 +5,18 @@
 #ifndef LIGHTNING_ELECTRONS_H
 #define LIGHTNING_ELECTRONS_H
 
-
-#include <cstdint>
 #include <types/types.h>
 
+#include <cstdint>
 
+namespace electron {
 
-    
-namespace electron{
+class ElectronSystem {
+   private:
+   public:
+    //  ElectronSystem(const DMatrix $energies, const DMatrix $occupation, const std::size_t &nKPoints);
+};
 
+}  // namespace electron
 
-
-
-    class ElectronSystem {
-
-        private:
-
-        public:
-
-          //  ElectronSystem(const DMatrix $energies, const DMatrix $occupation, const std::size_t &nKPoints);
-
-    };
-
-    
-
-
-  
-}
-
-
-
-
-
-#endif //LIGHTNING_ELECTRONS_H
+#endif  // LIGHTNING_ELECTRONS_H
