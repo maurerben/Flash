@@ -8,6 +8,7 @@ Checks: >
   - performance-*
   - bugprone-*
   - misc-*
+  - filter-.*
   - -* # Disable other checks
 
 WarningsAsErrors: ''

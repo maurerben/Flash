@@ -25,6 +25,6 @@ INCLUDE_PATHS=$(find "$PROJECT_DIR" -type d -name "include" -print | awk '{print
 # Run clang-tidy for all cpp files
 for file in $(find ${SRC_DIR} -name '*.cpp'); do
     echo "Running clang-tidy on $file "
-    clang-tidy ${file} --config-file=${CONFIG_FILE} -- -std=${CPP_STD} ${INCLUDE_PATHS} "-I/usr/include/eigen3"
+    clang-tidy ${file} --config-file=${CONFIG_FILE} -- -std=${CPP_STD} ${INCLUDE_PATHS} "-I/usr/include/eigen3" "-I/usr/include/catch2"
 
 done
