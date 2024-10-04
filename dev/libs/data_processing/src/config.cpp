@@ -1,10 +1,7 @@
-//
-// Created by benedikt on 29.03.24.
-//
-
 #include <data_processing/config.h>
 
-using namespace flash;
+namespace tp = flash::types;
+using namespace flash::data_processing::config;
 
 inline std::map<Seed, std::string> seedToStringDefault{{Seed::fixed, "fixed"}, {Seed::clock, "clock"}};
 
@@ -42,11 +39,11 @@ T nodeToValueWithDefault(const YAML::Node &node, const std::string &key, const T
     }
 }
 
-template <typename T, size N>
+template <typename T, tp::size N>
 auto nodeToArray(const YAML::Node &node, bool (*rule)(T value), std::string msg) {
     try {
         std::array<T, N> values;
-        size idx = 0;
+        tp::size idx = 0;
         for (auto element : node) {
             values[idx] = node.as<T>();
         }
@@ -59,11 +56,16 @@ auto nodeToArray(const YAML::Node &node, bool (*rule)(T value), std::string msg)
 Config::Config(const YAML::Node &configYamlNode, const std::vector<std::string> &allowedKeys,
                const std::vector<std::string> &mandatoryKeys, const DefaultConfig &defaults) {
     // extract keys from yaml node
+
+        std::cout<<configYamlNode["n_k_points"]<<std::endl;
+
     std::vector<std::string> keysInNode;
     for (auto kv : configYamlNode) {
         auto key = kv.first.as<std::string>();
         keysInNode.push_back(key);
     }
+
+    std::cout<<configYamlNode["n_k_points"]<<std::endl;
     // verify that all keys from keysInNode that are in allowedKeys
     for (auto key : keysInNode) {
         if (std::find(allowedKeys.begin(), allowedKeys.end(), key) == allowedKeys.end()) {
@@ -72,6 +74,7 @@ Config::Config(const YAML::Node &configYamlNode, const std::vector<std::string> 
         }
     }
 
+    std::cout<<configYamlNode["n_k_points"]<<std::endl;
     // verify that keys from mandatoryKeys are in keysInNode
     for (auto key : mandatoryKeys) {
         if (std::find(keysInNode.begin(), keysInNode.end(), key) == keysInNode.end()) {
@@ -80,43 +83,37 @@ Config::Config(const YAML::Node &configYamlNode, const std::vector<std::string> 
     }
 
     try {
-        n_k_points = nodeToValue<size>(configYamlNode["n_k_points"], "n_k_points is wrongly initialized.");
-        n_occupied_total = nodeToValue<size>(configYamlNode["n_occupied_total"], "n_occupied_total is wrongly initialized.");
-        n_unoccupied_total = nodeToValue<size>(configYamlNode["n_unoccupied_total"], "n_unoccupied_total is wrongly initialized.");
-        n_isdf_vexc = nodeToValue<size>(configYamlNode["n_isdf_vexc"], "n_isdf_vexc is wrongly initialized.");
+
+        n_k_points = nodeToValue<tp::size>(configYamlNode["n_k_points"], "n_k_points is wrongly initialized.");
+        n_occupied_total =
+            nodeToValue<tp::size>(configYamlNode["n_occupied_total"], "n_occupied_total is wrongly initialized.");
+        n_unoccupied_total =
+            nodeToValue<tp::size>(configYamlNode["n_unoccupied_total"], "n_unoccupied_total is wrongly initialized.");
+        n_isdf_vexc = nodeToValue<tp::size>(configYamlNode["n_isdf_vexc"], "n_isdf_vexc is wrongly initialized.");
         n_isdf_wscr_occupied =
-            nodeToValue<size>(configYamlNode["n_isdf_wscr_occupied"], "n_isdf_wscr_occupied is wrongly initialized.");
-        n_isdf_wscr_unoccupied = nodeToValue<size>(configYamlNode["n_isdf_wscr_unoccupied"],
+            nodeToValue<tp::size>(configYamlNode["n_isdf_wscr_occupied"], "n_isdf_wscr_occupied is wrongly initialized.");
+        n_isdf_wscr_unoccupied = nodeToValue<tp::size>(configYamlNode["n_isdf_wscr_unoccupied"],
                                                    "n_isdf_wscr_unoccupied is wrongly initialized.");
-        max_lanczos_iterations = nodeToValue<size>(configYamlNode["max_lanczos_iterations"],
+        max_lanczos_iterations = nodeToValue<tp::size>(configYamlNode["max_lanczos_iterations"],
                                                    "max_lanczos_iterations is wrongly initialized.");
         omega_range =
-            nodeToValue<std::array<real, 2>>(configYamlNode["omega_range"], "omega_range is wrongly initialized.");
-        n_omega = nodeToValue<size>(configYamlNode["n_omega"], "n_omega is wrongly initialized.");
+            nodeToValue<std::array<tp::real_dp, 2>>(configYamlNode["omega_range"], "omega_range is wrongly initialized.");
+        n_omega = nodeToValue<tp::size>(configYamlNode["n_omega"], "n_omega is wrongly initialized.");
         max_cvt_iterations =
-            nodeToValueWithDefault<size>(configYamlNode, "max_cvt_iterations", defaults.max_cvt_Itereations,
+            nodeToValueWithDefault<tp::size>(configYamlNode, "max_cvt_iterations", defaults.max_cvt_Itereations,
                                          "max_cvt_iterations is wrongly initialized.");
-        cvt_convergence_criterium = nodeToValueWithDefault<real>(configYamlNode, "cvt_convergence_criterium",
+        cvt_convergence_criterium = nodeToValueWithDefault<tp::real_dp>(configYamlNode, "cvt_convergence_criterium",
                                                                  defaults.cvt_convergence_criterium,
                                                                  "cvt_convergence_criterium is wrongly initialized.");
         seed_source = nodeToSeed(configYamlNode, "seed_source", defaults.seed_source);
+        
     } catch (const InvalidConfigurationException) {
         throw;
     }
 }
 
-Config::Config(const std::string &configYamlFile, const std::vector<std::string> &allowedKeys,
-               const std::vector<std::string> &mandatoryKeys, const DefaultConfig &defaults) {
-    try{
-        YAML::Node configYamlNode = YAML::LoadFile("config.yaml");
-        Config(configYamlNode, allowedKeys, mandatoryKeys, defaults);
-    } catch(...) {
-        throw;
-    }
-};
 
 void Config::validate() {
-
     // Rule for n_k_points
     if (n_k_points == 0) {
         throw InvalidConfigurationException("n_k_points must be > 0.");
@@ -139,24 +136,21 @@ void Config::validate() {
     }
     if (!n_isdf_vexc <= n_occupied_total * n_unoccupied_total / n_k_points) {
         throw InvalidConfigurationException(
-            "n_isdf_vexc must be <= n_occupied_total * n_unoccupied_total / n_k_points (" +
-            std::to_string(n_occupied_total * n_unoccupied_total / n_k_points) + ").");
+            "n_isdf_vexc must be <= n_occupied_total * n_unoccupied_total / n_k_points.");
     }
     // Rules for n_isdf_wscr_occupied
     if (!n_isdf_wscr_occupied > 0) {
         throw InvalidConfigurationException("n_isdf_wscr_occupied must be > 0.");
     }
     if (!n_isdf_wscr_occupied <= std::pow(n_occupied_total, 2)) {
-        throw InvalidConfigurationException("n_isdf_wscr_occupied must be <= n_occupied_total^2 (" +
-                                            std::to_string(std::pow(n_occupied_total, 2)) + ").");
+        throw InvalidConfigurationException("n_isdf_wscr_occupied must be <= n_occupied_total^2.");
     }
     // Rules for n_isdf_wscr_unoccupied
     if (!n_isdf_wscr_unoccupied > 0) {
         throw InvalidConfigurationException("n_isdf_wscr_unoccupied must be > 0.");
     }
     if (!n_isdf_wscr_unoccupied <= std::pow(n_occupied_total, 2)) {
-        throw InvalidConfigurationException("n_isdf_wscr_unoccupied must be <= n_occupied_total^2 (" +
-                                            std::to_string(std::pow(n_occupied_total, 2)) + ").");
+        throw InvalidConfigurationException("n_isdf_wscr_unoccupied must be <= n_occupied_total^2.");
     }
     // Rule for max_lanczos_iterations
     if (!max_lanczos_iterations > 0) {
@@ -164,8 +158,7 @@ void Config::validate() {
     }
     // Rule for omega_range
     if (!sizeof(omega_range) == 2) {
-        throw InvalidConfigurationException(
-            "omega_range must contain exactly 2 values.");
+        throw InvalidConfigurationException("omega_range must contain exactly 2 values.");
     }
     if (!omega_range[0] < omega_range[1]) {
         throw InvalidConfigurationException(

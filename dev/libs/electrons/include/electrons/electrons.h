@@ -2,8 +2,8 @@
 // Created by benedikt on 29.03.24.
 //
 
-#ifndef LIGHTNING_ELECTRONS_H
-#define LIGHTNING_ELECTRONS_H
+#ifndef FLASH_ELECTRONS_H
+#define FLASH_ELECTRONS_H
 
 #include <types/types.h>
 
@@ -19,4 +19,4 @@ class ElectronSystem {
 
 }  // namespace electron
 
-#endif  // LIGHTNING_ELECTRONS_H
+#endif  // FLASH_ELECTRONS_H

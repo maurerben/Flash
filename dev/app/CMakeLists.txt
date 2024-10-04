@@ -6,4 +6,5 @@ target_link_libraries(app
         data_processing 
         constants
         yaml-cpp
+        ${Boost_LIBRARIES}
 )

@@ -22,6 +22,9 @@ include(cmake/ConfigYamlCpp.cmake)
 # Include the Eigen  configuration file
 include(cmake/ConfigEigen.cmake)
 
+# Include the Boost configuration file
+include(cmake/ConfigBoost.cmake)
+
 # Include libraries
 add_subdirectory(libs)
 

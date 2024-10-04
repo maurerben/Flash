@@ -1,9 +1,5 @@
-//
-// Created by benedikt on 15.07.24.
-//
-
-#ifndef LIGHTNING_TYPES_H
-#define LIGHTNING_TYPES_H
+#ifndef FLASH_TYPES_H
+#define FLASH_TYPES_H
 
 #include <yaml-cpp/yaml.h>
 
@@ -14,16 +10,19 @@
 #include <string>
 
 namespace flash {
+namespace types {
 
 typedef std::size_t size;
-typedef std::double_t real;
-typedef std::complex<real> complex;
+typedef std::double_t real_dp;
+typedef std::complex<real_dp> complex_dp;
 
-typedef Eigen::Matrix<complex, Eigen::Dynamic, Eigen::Dynamic> DMatrix;
-typedef Eigen::Matrix<real, Eigen::Dynamic, Eigen::Dynamic> CMatrix;
+typedef Eigen::Vector<real_dp, Eigen::Dynamic> DVector;
+typedef Eigen::Vector<complex_dp, Eigen::Dynamic> CVector;
+typedef Eigen::Matrix<real_dp, Eigen::Dynamic, Eigen::Dynamic> DMatrix;
+typedef Eigen::Matrix<complex_dp, Eigen::Dynamic, Eigen::Dynamic> CMatrix;
 
-typedef std::complex<std::double_t> Complex;
 
+}  // namespace types
 }  // namespace flash
 
-#endif  // LIGHTNING_TYPES_H
+#endif  // FLASH_TYPES_H

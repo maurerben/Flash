@@ -2,7 +2,7 @@
 
 add_library(types src/types.cpp)
 
-target_link_libraries(types yaml-cpp Eigen3::Eigen)
+target_link_libraries(types Eigen3::Eigen)
 
 target_include_directories(types
         PUBLIC

@@ -22,17 +22,17 @@ CLANG_FORMAT_CMD = $(BASHCMD) $(BASH_SCRIPT_DIR)/clang-format.sh
 CLANG_TIDY_CONFIG = $(SRC_DIR)/linter/.clang-tidy
 CLANG_FORMAT_STYLE = $(SRC_DIR)/linter/.clang-format
 
-COMPILE_COMMANDS_FILE = compile_commands.json
-ifeq ($(wildcard $(DEBUG_DIR)/$(COMPILE_COMMANDS_FILE)),)
-	ifeq ($(wildcard $(RELEASE_DIR)/$(COMPILE_COMMANDS_FILE)),)
-		$(info Neither $(DEBUG_DIR)/$(COMPILE_COMMANDS_FILE) nor $(RELEASE_DIR)/$(COMPILE_COMMANDS_FILE) exist. \
-		Run make debug or make release first.)
-	else
-		COMPILE_COMMANDS := $(RELEASE_DIR)/$(COMPILE_COMMANDS_FILE)  
-	endif
-else
-	COMPILE_COMMANDS := $(DEBUG_DIR)/$(COMPILE_COMMANDS_FILE)
-endif
+# COMPILE_COMMANDS_FILE = compile_commands.json
+# ifeq ($(wildcard $(DEBUG_DIR)/$(COMPILE_COMMANDS_FILE)),)
+# 	ifeq ($(wildcard $(RELEASE_DIR)/$(COMPILE_COMMANDS_FILE)),)
+# 		$(info Neither $(DEBUG_DIR)/$(COMPILE_COMMANDS_FILE) nor $(RELEASE_DIR)/$(COMPILE_COMMANDS_FILE) exist. \
+# 		Run make debug or make release first.)
+# 	else
+# 		COMPILE_COMMANDS := $(RELEASE_DIR)/$(COMPILE_COMMANDS_FILE)  
+# 	endif
+# else
+# 	COMPILE_COMMANDS := $(DEBUG_DIR)/$(COMPILE_COMMANDS_FILE)
+# endif
 
 all: debug release documentation
 
