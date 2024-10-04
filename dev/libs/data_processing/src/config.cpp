@@ -80,6 +80,9 @@ Config::Config(const YAML::Node &configYamlNode, const std::vector<std::string> 
     }
 
     try {
+        n_k_points = nodeToValue<size>(configYamlNode["n_k_points"], "n_k_points is wrongly initialized.");
+        n_occupied_total = nodeToValue<size>(configYamlNode["n_occupied_total"], "n_occupied_total is wrongly initialized.");
+        n_unoccupied_total = nodeToValue<size>(configYamlNode["n_unoccupied_total"], "n_unoccupied_total is wrongly initialized.");
         n_isdf_vexc = nodeToValue<size>(configYamlNode["n_isdf_vexc"], "n_isdf_vexc is wrongly initialized.");
         n_isdf_wscr_occupied =
             nodeToValue<size>(configYamlNode["n_isdf_wscr_occupied"], "n_isdf_wscr_occupied is wrongly initialized.");
@@ -104,57 +107,66 @@ Config::Config(const YAML::Node &configYamlNode, const std::vector<std::string> 
 
 Config::Config(const std::string &configYamlFile, const std::vector<std::string> &allowedKeys,
                const std::vector<std::string> &mandatoryKeys, const DefaultConfig &defaults) {
-    YAML::Node configYamlNode = YAML::LoadFile("config.yaml");
-    Config(configYamlNode, allowedKeys, mandatoryKeys, defaults);
+    try{
+        YAML::Node configYamlNode = YAML::LoadFile("config.yaml");
+        Config(configYamlNode, allowedKeys, mandatoryKeys, defaults);
+    } catch(...) {
+        throw;
+    }
 };
 
-void Config::sanityChecks() {
+void Config::validate() {
+
     // Rule for n_k_points
-    if (!n_k_points > 0) {
+    if (n_k_points == 0) {
         throw InvalidConfigurationException("n_k_points must be > 0.");
     }
     // Rule for n_occupied_total
-    if (!n_occpied_total > 0) {
-        throw InvalidConfigurationException("n_occpied_total must be > 0.");
+    if (n_occupied_total == 0) {
+        throw InvalidConfigurationException("n_occupied_total must be > 0.");
     }
     // Rule for n_unoccupied_total
-    if (!n_unoccupied_total > 0) {
+    if (n_unoccupied_total == 0) {
         throw InvalidConfigurationException("n_unoccupied_total must be > 0.");
     }
     // Rule for n_occupied_total + n_unoccupied_total
-    if (!(n_unoccupied_total + n_occpied_total) % n_k_points == 0) {
-        throw InvalidConfigurationException("n_occpied_total + n_unoccupied_total must be divisable by n_k_points.");
+    if ((n_unoccupied_total + n_occupied_total) % n_k_points != 0) {
+        throw InvalidConfigurationException("n_occupied_total + n_unoccupied_total must be divisable by n_k_points.");
     }
     // Rules for n_isdf_vexc
     if (!n_isdf_vexc > 0) {
         throw InvalidConfigurationException("n_isdf_vexc must be > 0.");
     }
-    if (!n_isdf_vexc <= n_occpied_total * n_unoccupied_total / n_k_points) {
+    if (!n_isdf_vexc <= n_occupied_total * n_unoccupied_total / n_k_points) {
         throw InvalidConfigurationException(
-            "n_isdf_vexc must be <= n_occpied_total * n_unoccupied_total / n_k_points (" +
-            std::to_string(n_occpied_total * n_unoccupied_total / n_k_points) + ").");
+            "n_isdf_vexc must be <= n_occupied_total * n_unoccupied_total / n_k_points (" +
+            std::to_string(n_occupied_total * n_unoccupied_total / n_k_points) + ").");
     }
     // Rules for n_isdf_wscr_occupied
     if (!n_isdf_wscr_occupied > 0) {
         throw InvalidConfigurationException("n_isdf_wscr_occupied must be > 0.");
     }
-    if (!n_isdf_wscr_occupied <= n_occpied_total * *2) {
-        throw InvalidConfigurationException("n_isdf_wscr_occupied must be <= n_occpied_total ** 2 (" +
-                                            std::to_string(n_occpied_total * *2) + ").");
+    if (!n_isdf_wscr_occupied <= std::pow(n_occupied_total, 2)) {
+        throw InvalidConfigurationException("n_isdf_wscr_occupied must be <= n_occupied_total^2 (" +
+                                            std::to_string(std::pow(n_occupied_total, 2)) + ").");
     }
     // Rules for n_isdf_wscr_unoccupied
     if (!n_isdf_wscr_unoccupied > 0) {
         throw InvalidConfigurationException("n_isdf_wscr_unoccupied must be > 0.");
     }
-    if (!n_isdf_wscr_unoccupied <= n_unoccupied_total * *2) {
-        throw InvalidConfigurationException("n_isdf_wscr_unoccupied must be <= n_occpied_total ** 2 (" +
-                                            std::to_string(n_unoccupied_total * *2) + ").");
+    if (!n_isdf_wscr_unoccupied <= std::pow(n_occupied_total, 2)) {
+        throw InvalidConfigurationException("n_isdf_wscr_unoccupied must be <= n_occupied_total^2 (" +
+                                            std::to_string(std::pow(n_occupied_total, 2)) + ").");
     }
     // Rule for max_lanczos_iterations
     if (!max_lanczos_iterations > 0) {
         throw InvalidConfigurationException("max_lanczos_iterations must be > 0.");
     }
     // Rule for omega_range
+    if (!sizeof(omega_range) == 2) {
+        throw InvalidConfigurationException(
+            "omega_range must contain exactly 2 values.");
+    }
     if (!omega_range[0] < omega_range[1]) {
         throw InvalidConfigurationException(
             "Lower limit of omega_range (left value) must be smaller then the upper limit (right value).");

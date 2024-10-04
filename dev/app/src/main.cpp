@@ -10,12 +10,11 @@
 using namespace flash;
 
 int main() {
+    
     try {
-        Config config("config.yaml");
-    } catch (InvalidKeyException ike) {
-        std::cout << "Caught InvalidKeyException: " << ike.what() << std::endl;
-    } catch (MissingKeyException mke) {
-        std::cout << "Caught MissingKeyExceptionr " << mke.what() << std::endl;
+        Config params("config.yaml");
+        std::cout<<params.n_isdf_wscr_occupied <<" "<< params.n_occupied_total<<" "<<params.n_unoccupied_total<<std::endl;
+        params.validate();
     } catch (InvalidConfigurationException ice) {
         std::cout << "Caught InvalidConfigurationException: " << ice.what() << std::endl;
     } catch (...) {

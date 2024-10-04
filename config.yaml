@@ -1,3 +1,6 @@
+n_k_points: 0
+n_occupied_total: 3
+n_unoccupied_total: 9
 n_isdf_vexc: 3
 n_isdf_wscr_occupied: 4
 n_isdf_wscr_unoccupied: 5
