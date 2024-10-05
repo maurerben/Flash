@@ -18,3 +18,4 @@
 #     FORCE)
 
 find_package(Catch2 REQUIRED)
+include_directories(${CATCH3_INCLUDE_DIRS})

@@ -16,5 +16,4 @@
 #    FORCE)
 
 find_package(HDF5 REQUIRED COMPONENTS C CXX)
-
 include_directories(${HDF5_INCLUDE_DIRS})

@@ -27,4 +27,4 @@
 # # FetchContent_MakeAvailable(some_dependency)
 
 find_package(yaml-cpp REQUIRED)
-
+include_directories(${YAML_CPP_INCLUDE_DIRS})

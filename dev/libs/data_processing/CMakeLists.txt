@@ -12,7 +12,7 @@ target_link_libraries(data_processing
 
 target_include_directories(data_processing
         PUBLIC
-            ${CMAKE_SOURCE_DIR}/include
+            include
         PRIVATE
             src
 )

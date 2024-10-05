@@ -34,7 +34,9 @@ add_subdirectory(app)
 # Include tests
 add_subdirectory(tests)
 
-
 # Set compile options for different build types
 set(CMAKE_CXX_FLAGS_DEBUG "-g3 -O0 -tr")
 set(CMAKE_CXX_FLAGS_RELEASE "-O3")
+
+# Write include dirs to a file
+include(cmake/WriteIncludeDirs.cmake)
