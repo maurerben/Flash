@@ -13,7 +13,7 @@ LIB_SRC_DIR = $(SRC_DIR)/libs
 APP_SRC_DIR = $(SRC_DIR)/app
 DOC_SRC_DIR = $(SRC_DIR)/docs
 
-BASHCMD = bash
+BASHCMD = @bash
 REPLACE_CMD = $(BASHCMD) $(BASH_SCRIPT_DIR)/replace.sh
 CLANG_TIDY_CMD = $(BASHCMD) $(BASH_SCRIPT_DIR)/clang-tidy.sh
 CLANG_FORMAT_CMD = $(BASHCMD) $(BASH_SCRIPT_DIR)/clang-format.sh
