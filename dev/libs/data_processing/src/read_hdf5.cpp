@@ -1,12 +1,10 @@
 #include <data_processing/read_hdf5.h>
 
-
 namespace tp = flash::types;
 using namespace flash::data_processing::read_hdf5;
 
-
 tp::DVector readDoubleVectorHDF5(const std::string &filename, const std::string &datasetName) {
-     try {
+    try {
         // Open the HDF5 file
         H5::H5File file(filename, H5F_ACC_RDONLY);
 
@@ -26,14 +24,11 @@ tp::DVector readDoubleVectorHDF5(const std::string &filename, const std::string 
         tp::DVector eigenVector = Eigen::Map<tp::DVector>(buffer.data(), buffer.size());
 
         return eigenVector;
-    }
-    catch (H5::FileIException &error) {
+    } catch (H5::FileIException &error) {
         error.printErrorStack();
-    }
-    catch (H5::DataSetIException &error) {
+    } catch (H5::DataSetIException &error) {
         error.printErrorStack();
-    }
-    catch (H5::DataSpaceIException &error) {
+    } catch (H5::DataSpaceIException &error) {
         error.printErrorStack();
     }
 

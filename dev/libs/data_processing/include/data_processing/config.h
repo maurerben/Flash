@@ -2,19 +2,18 @@
 #define FLASH_CONFIG_H
 
 #include <array>
+#include <cmath>
 #include <iostream>
 #include <string>
 #include <tuple>
 #include <vector>
-#include <cmath>
-
-#include <yaml-cpp/yaml.h>
 
 #include <types/types.h>
+#include <yaml-cpp/yaml.h>
 
 namespace flash {
-namespace data_processing{
-namespace config{
+namespace data_processing {
+namespace config {
 
 /**
  * @brief Throw when an invalid key is detected.

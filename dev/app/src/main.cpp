@@ -53,5 +53,7 @@ int main(int argc, char* argv[]) {
     auto commandLineArguments = loadCommandLineArguments(argc, argv);
     auto configParameters = setupConfigParameters(commandLineArguments);
 
+    
+
     return 0;
 }

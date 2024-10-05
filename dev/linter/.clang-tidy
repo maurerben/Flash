@@ -9,6 +9,7 @@ Checks: >
   - bugprone-*
   - misc-*
   - filter-.*
+  - header-filter=.*
   - -* # Disable other checks
 
 WarningsAsErrors: ''

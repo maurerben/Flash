@@ -1,8 +1,8 @@
 #define CATCH_CONFIG_MAIN
 
-#include <catch2/catch.hpp>
-
 #include <data_processing/config.h>
+
+#include <catch2/catch.hpp>
 
 namespace ftp = flash::types;
 using namespace flash::data_processing::config;

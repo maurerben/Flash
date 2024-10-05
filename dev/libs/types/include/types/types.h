@@ -21,7 +21,6 @@ typedef Eigen::Vector<complex_dp, Eigen::Dynamic> CVector;
 typedef Eigen::Matrix<real_dp, Eigen::Dynamic, Eigen::Dynamic> DMatrix;
 typedef Eigen::Matrix<complex_dp, Eigen::Dynamic, Eigen::Dynamic> CMatrix;
 
-
 }  // namespace types
 }  // namespace flash
 
