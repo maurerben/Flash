@@ -19,7 +19,7 @@ jobs:
 
     - name: Install dependencies
       run: sudo apt-get update && sudo apt-get install -y 
-        g++ cmake libyaml-cpp-dev catch2 libeigen3-dev doxygen libhdf5-dev
+        g++ cmake libyaml-cpp-dev catch2 libeigen3-dev doxygen libhdf5-dev boost
 
     - name: Create build directory
       run: mkdir build

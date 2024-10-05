@@ -26,4 +26,4 @@ flash::types::DVector readDoubleVectorHDF5(const std::string &filename, const st
 }  // namespace data_processing
 }  // namespace flash
 
-#endif  // FLASH_READ_H
+#endif  // FLASH_READ_H 
