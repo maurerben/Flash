@@ -1,6 +1,7 @@
 This is flash, a super fast BSE solver.
 
 # Install:
+## Use `make`:
 To build **Flash** with debug flags, release flags and the documentation type in the root directory
 ```bash
 make 
@@ -12,6 +13,16 @@ make release
 make documentation
 ```
 If you wish to make build the documentation, make sure that doxygen is installed.
+
+## The classic way
+You can avoid using the `Makefile` and build the code with cmake
+```bash
+mkdir build
+cd build
+cmake ../dev/
+cmake --build
+```
+The make commands are doing exactly that.
 
 ## Run unit tests:
 Run all tests:
