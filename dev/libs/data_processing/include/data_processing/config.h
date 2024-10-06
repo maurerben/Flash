@@ -8,8 +8,9 @@
 #include <tuple>
 #include <vector>
 
-#include <types/types.h>
 #include <yaml-cpp/yaml.h>
+
+#include <types/types.h>
 
 namespace flash {
 namespace data_processing {
@@ -52,7 +53,7 @@ class InvalidConfigurationException : public std::exception {
 };
 
 /// @brief Options for random seed.
-enum class Seed { fixed, clock };
+enum class Seed { fixed, clock, invalid };
 
 /// @brief Allowed Keys in config.yaml
 static const std::vector<std::string> getAllowedKeys() {
@@ -85,6 +86,7 @@ static const std::vector<std::string> getMandatoryKeys() {
     return allowedKeys;
 }
 
+/// @brief Default configuration values for non mandatory keys.
 struct DefaultConfig {
     types::size max_cvt_Itereations = 1000;
     types::real_dp cvt_convergence_criterium = 1.e-5;

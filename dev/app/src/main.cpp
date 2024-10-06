@@ -13,6 +13,7 @@ namespace dpc = flash::data_processing::config;
 namespace tp = flash::types;
 
 po::variables_map loadCommandLineArguments(int argc, char* argv[]) {
+    
     po::options_description desc("Allowed options");
     desc.add_options()("help,h", "produce help message")(
         "config-file,i", po::value<std::string>()->default_value("config.yaml"), "set path to a config.yaml");
@@ -29,6 +30,7 @@ po::variables_map loadCommandLineArguments(int argc, char* argv[]) {
 }
 
 dpc::Config setupConfigParameters(po::variables_map commandLineArguments) {
+
     auto configFile = commandLineArguments["config-file"].as<std::string>();
     std::cout << "Load configuration from " << configFile << std::endl;
     try {
@@ -53,7 +55,6 @@ int main(int argc, char* argv[]) {
     auto commandLineArguments = loadCommandLineArguments(argc, argv);
     auto configParameters = setupConfigParameters(commandLineArguments);
 
-    
 
     return 0;
 }

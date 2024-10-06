@@ -16,6 +16,7 @@ Seed nodeToSeed(const YAML::Node &node, const std::string &key, const Seed &defa
     } catch (std::out_of_range) {
         throw InvalidConfigurationException("Invalid option for seed.");
     }
+    return Seed::invalid;
 }
 
 template <typename T>
@@ -25,6 +26,7 @@ T nodeToValue(const YAML::Node &node, std::string msg) {
     } catch (...) {
         throw InvalidConfigurationException(msg);
     }
+    return T();
 }
 
 template <typename T>
@@ -37,6 +39,7 @@ T nodeToValueWithDefault(const YAML::Node &node, const std::string &key, const T
     } catch (...) {
         throw InvalidConfigurationException(msg);
     }
+    return T();
 }
 
 template <typename T, tp::size N>
@@ -51,6 +54,7 @@ auto nodeToArray(const YAML::Node &node, bool (*rule)(T value), std::string msg)
     } catch (...) {
         throw InvalidConfigurationException(msg);
     }
+    return std::array<T, N>();
 }
 
 Config::Config(const YAML::Node &configYamlNode, const std::vector<std::string> &allowedKeys,
@@ -166,5 +170,9 @@ void Config::validate() {
     // Rule for max_cvt_iterations
     if (cvt_convergence_criterium == 0) {
         throw InvalidConfigurationException("cvt_convergence_criterium must be > 0.");
+    }
+    // Rule for seed_source
+    if (seed_source == Seed::invalid) {
+        throw InvalidConfigurationException("seed_source is invalid.");
     }
 }
