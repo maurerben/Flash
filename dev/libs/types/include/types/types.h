@@ -12,14 +12,21 @@
 namespace flash {
 namespace types {
 
-typedef std::size_t size;
-typedef std::double_t real_dp;
-typedef std::complex<real_dp> complex_dp;
+/// Basic types
+/// @brief Type for sizes.
+typedef std::size_t my_size;
+/// @brief Type for double precision floating point numbers
+typedef std::double_t my_double;
+/// @brief Type for double precision floating point complex numbers
+typedef std::complex<my_double> complex_dp;
 
-typedef Eigen::Vector<real_dp, Eigen::Dynamic> DVector;
-typedef Eigen::Vector<complex_dp, Eigen::Dynamic> CVector;
-typedef Eigen::Matrix<real_dp, Eigen::Dynamic, Eigen::Dynamic> DMatrix;
-typedef Eigen::Matrix<complex_dp, Eigen::Dynamic, Eigen::Dynamic> CMatrix;
+// Array types based on Eigen types
+/// @brief Type for a dynamic vector
+template<typename T>
+using vector = Eigen::Vector<T, Eigen::Dynamic>;
+/// @brief Type for a dynamic matrix
+template<typename T>
+using matrix = Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>;
 
 }  // namespace types
 }  // namespace flash

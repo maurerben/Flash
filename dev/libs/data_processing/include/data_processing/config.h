@@ -1,5 +1,5 @@
-#ifndef FLASH_CONFIG_H
-#define FLASH_CONFIG_H
+#ifndef FLASH_DATA_PROCESSING_CONFIG_H
+#define FLASH_DATA_PROCESSING_CONFIG_H
 
 #include <array>
 #include <cmath>
@@ -88,8 +88,8 @@ static const std::vector<std::string> getMandatoryKeys() {
 
 /// @brief Default configuration values for non mandatory keys.
 struct DefaultConfig {
-    types::size max_cvt_Itereations = 1000;
-    types::real_dp cvt_convergence_criterium = 1.e-5;
+    types::my_size max_cvt_Itereations = 1000;
+    types::my_double cvt_convergence_criterium = 1.e-5;
     Seed seed_source = Seed::clock;
 
     DefaultConfig() = default;
@@ -101,63 +101,63 @@ class Config {
     /**
      * @brief Number of **k**-points.
      */
-    types::size n_k_points;
+    types::my_size n_k_points;
 
     /**
      * @brief Number of occupied bands cumulative over the **k**-points.
      * @details \p n_occupied_total + \p n_occupied_total must be divisable by \p n_k_points
      */
-    types::size n_occupied_total;
+    types::my_size n_occupied_total;
 
     /**
      * @brief Number of unoccupied bands cumulative over the **k**-points.
      */
-    types::size n_unoccupied_total;
+    types::my_size n_unoccupied_total;
 
     /**
      * @brief Number of interpolation points for occupied unoccupied pairing.
      * @details Must be <= \p n_occupied_total * \p n_unoccupied_total / \p n_k_points.
      */
-    types::size n_isdf_vexc;
+    types::my_size n_isdf_vexc;
 
     /**
      * @brief Number of interpolation points for occupied unoccupied pairing.
      * @details Must be <= \p n_occupied_total ** 2.
      */
-    types::size n_isdf_wscr_occupied;
+    types::my_size n_isdf_wscr_occupied;
 
     /**
      * @brief Number of interpolation points for occupied unoccupied pairing.
      * @details Must be <= \p n_unoccupied_total ** 2.
      */
-    types::size n_isdf_wscr_unoccupied;
+    types::my_size n_isdf_wscr_unoccupied;
 
     /**
      * @brief Number of Lanczos iterations.
      * @details Must be <= \p n_occupied_total * \p n_unoccupied_total / \p n_k_points.
      */
-    types::size max_lanczos_iterations;
+    types::my_size max_lanczos_iterations;
 
     /**
      * @brief Energy range for calculating the spectrum.
      * @details The lower limit (left value) must be smaller than the upper limit (right value).
      */
-    std::array<types::real_dp, 2> omega_range;
+    std::array<types::my_double, 2> omega_range;
 
     /**
      * @brief Number of energy sampling points.
      */
-    types::size n_omega;
+    types::my_size n_omega;
 
     /**
      * @brief Max. iterations for CVT.
      */
-    types::size max_cvt_iterations;
+    types::my_size max_cvt_iterations;
 
     /**
      * @brief CVT convergence criterium
      */
-    types::real_dp cvt_convergence_criterium;
+    types::my_double cvt_convergence_criterium;
 
     /**
      * @brief Seed source for random number generation.
@@ -198,4 +198,4 @@ class Config {
 }  // namespace data_processing
 }  // namespace flash
 
-#endif  // FLASH_CONFIG_H`
+#endif  // FLASH_DATA_PROCESSING_CONFIG_H`

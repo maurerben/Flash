@@ -2,12 +2,13 @@
 
 add_library(data_processing 
         src/config.cpp 
-        src/read_hdf5.cpp
+        src/hdf5_wrappers.cpp
 )
 
 target_link_libraries(data_processing 
-        types  
-        yaml-cpp
+        PUBLIC
+            types  
+            yaml-cpp
 )
 
 target_include_directories(data_processing

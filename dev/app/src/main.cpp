@@ -1,4 +1,4 @@
-#include <constants/constants.h>
+
 #include <data_processing/config.h>
 #include <yaml-cpp/yaml.h>
 
@@ -13,7 +13,7 @@ namespace dpc = flash::data_processing::config;
 namespace tp = flash::types;
 
 po::variables_map loadCommandLineArguments(int argc, char* argv[]) {
-    
+
     po::options_description desc("Allowed options");
     desc.add_options()("help,h", "produce help message")(
         "config-file,i", po::value<std::string>()->default_value("config.yaml"), "set path to a config.yaml");

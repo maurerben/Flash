@@ -42,11 +42,11 @@ T nodeToValueWithDefault(const YAML::Node &node, const std::string &key, const T
     return T();
 }
 
-template <typename T, tp::size N>
+template <typename T, tp::my_size N>
 auto nodeToArray(const YAML::Node &node, bool (*rule)(T value), std::string msg) {
     try {
         std::array<T, N> values;
-        tp::size idx = 0;
+        tp::my_size idx = 0;
         for (auto element : node) {
             values[idx] = node.as<T>();
         }
@@ -83,25 +83,25 @@ Config::Config(const YAML::Node &configYamlNode, const std::vector<std::string> 
     }
 
     try {
-        n_k_points = nodeToValue<tp::size>(configYamlNode["n_k_points"], "n_k_points is wrongly initialized.");
+        n_k_points = nodeToValue<tp::my_size>(configYamlNode["n_k_points"], "n_k_points is wrongly initialized.");
         n_occupied_total =
-            nodeToValue<tp::size>(configYamlNode["n_occupied_total"], "n_occupied_total is wrongly initialized.");
+            nodeToValue<tp::my_size>(configYamlNode["n_occupied_total"], "n_occupied_total is wrongly initialized.");
         n_unoccupied_total =
-            nodeToValue<tp::size>(configYamlNode["n_unoccupied_total"], "n_unoccupied_total is wrongly initialized.");
-        n_isdf_vexc = nodeToValue<tp::size>(configYamlNode["n_isdf_vexc"], "n_isdf_vexc is wrongly initialized.");
-        n_isdf_wscr_occupied = nodeToValue<tp::size>(configYamlNode["n_isdf_wscr_occupied"],
+            nodeToValue<tp::my_size>(configYamlNode["n_unoccupied_total"], "n_unoccupied_total is wrongly initialized.");
+        n_isdf_vexc = nodeToValue<tp::my_size>(configYamlNode["n_isdf_vexc"], "n_isdf_vexc is wrongly initialized.");
+        n_isdf_wscr_occupied = nodeToValue<tp::my_size>(configYamlNode["n_isdf_wscr_occupied"],
                                                      "n_isdf_wscr_occupied is wrongly initialized.");
-        n_isdf_wscr_unoccupied = nodeToValue<tp::size>(configYamlNode["n_isdf_wscr_unoccupied"],
+        n_isdf_wscr_unoccupied = nodeToValue<tp::my_size>(configYamlNode["n_isdf_wscr_unoccupied"],
                                                        "n_isdf_wscr_unoccupied is wrongly initialized.");
-        max_lanczos_iterations = nodeToValue<tp::size>(configYamlNode["max_lanczos_iterations"],
+        max_lanczos_iterations = nodeToValue<tp::my_size>(configYamlNode["max_lanczos_iterations"],
                                                        "max_lanczos_iterations is wrongly initialized.");
-        omega_range = nodeToValue<std::array<tp::real_dp, 2>>(configYamlNode["omega_range"],
+        omega_range = nodeToValue<std::array<tp::my_double, 2>>(configYamlNode["omega_range"],
                                                               "omega_range is wrongly initialized.");
-        n_omega = nodeToValue<tp::size>(configYamlNode["n_omega"], "n_omega is wrongly initialized.");
+        n_omega = nodeToValue<tp::my_size>(configYamlNode["n_omega"], "n_omega is wrongly initialized.");
         max_cvt_iterations =
-            nodeToValueWithDefault<tp::size>(configYamlNode, "max_cvt_iterations", defaults.max_cvt_Itereations,
+            nodeToValueWithDefault<tp::my_size>(configYamlNode, "max_cvt_iterations", defaults.max_cvt_Itereations,
                                              "max_cvt_iterations is wrongly initialized.");
-        cvt_convergence_criterium = nodeToValueWithDefault<tp::real_dp>(
+        cvt_convergence_criterium = nodeToValueWithDefault<tp::my_double>(
             configYamlNode, "cvt_convergence_criterium", defaults.cvt_convergence_criterium,
             "cvt_convergence_criterium is wrongly initialized.");
         seed_source = nodeToSeed(configYamlNode, "seed_source", defaults.seed_source);

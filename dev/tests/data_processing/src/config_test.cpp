@@ -51,7 +51,7 @@ TEST_CASE("Test Config construction from a valid YAML::node that defines all par
     REQUIRE(params.n_isdf_wscr_occupied == 4);
     REQUIRE(params.n_isdf_wscr_unoccupied == 5);
     REQUIRE(params.max_lanczos_iterations == 200);
-    REQUIRE(params.omega_range == std::array<tp::real_dp, 2>{1.0, 2.0});
+    REQUIRE(params.omega_range == std::array<tp::my_double, 2>{1.0, 2.0});
     REQUIRE(params.n_omega == 1500);
     REQUIRE(params.max_cvt_iterations == 333);
     REQUIRE(params.cvt_convergence_criterium == 1e-6);
@@ -68,7 +68,7 @@ TEST_CASE("Test Config construction from a valid YAML::node that defines not all
     REQUIRE(params.n_isdf_wscr_occupied == 4);
     REQUIRE(params.n_isdf_wscr_unoccupied == 5);
     REQUIRE(params.max_lanczos_iterations == 200);
-    REQUIRE(params.omega_range == std::array<tp::real_dp, 2>{1.0, 2.0});
+    REQUIRE(params.omega_range == std::array<tp::my_double, 2>{1.0, 2.0});
     REQUIRE(params.n_omega == 1500);
     REQUIRE(params.max_cvt_iterations == 1000);
     REQUIRE(params.cvt_convergence_criterium == 1e-5);
