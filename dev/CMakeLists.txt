@@ -10,23 +10,23 @@ include(cmake/ConfigClangTidy.cmake)
 # Enable testing
 enable_testing()
 
-# Include the Catch2 configuration file
+# Include the Catch2 configParameters file
 include(cmake/ConfigCatch2.cmake)
 
-# Include the HDF5 configuration file
+# Include the HDF5 configParameters file
 include(cmake/ConfigHDF5.cmake)
 
-# Include the yaml-cpp  configuration file
+# Include the yaml-cpp  configParameters file
 include(cmake/ConfigYamlCpp.cmake)
 
-# Include the Eigen  configuration file
+# Include the Eigen  configParameters file
 include(cmake/ConfigEigen.cmake)
 
-# Include the Boost configuration file
+# Include the Boost configParameters file
 include(cmake/ConfigBoost.cmake)
 
 # Include libraries
-add_subdirectory(libs)
+add_subdirectory(flashlib)
 
 # Include application
 add_subdirectory(app)

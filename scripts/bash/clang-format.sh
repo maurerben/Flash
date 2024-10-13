@@ -23,7 +23,7 @@ if [ ! -f ${CONFIG_FILE} ]; then
 fi
 
 # Run clang-format for all cpp files
-for file in $(find ${SRC_DIR} -name '*.cpp' -o -name '*.h'); do
+for file in $(find ${SRC_DIR} -name '*.cpp' -o -name '*.h' -o -name '*.tpp'); do
     echo "Running clang-format on $file "
     clang-format --style=file:${CONFIG_FILE} -i ${file} 
 

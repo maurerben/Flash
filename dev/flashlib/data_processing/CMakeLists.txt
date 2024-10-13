@@ -1,13 +1,11 @@
-#project(lightning-config)
-
 add_library(data_processing 
-        src/config.cpp 
-        src/hdf5_wrappers.cpp
+        src/yaml.cpp 
+        src/hdf5.cpp
 )
 
 target_link_libraries(data_processing 
-        PUBLIC
-            types  
+        PRIVATE
+            basic 
             yaml-cpp
 )
 
