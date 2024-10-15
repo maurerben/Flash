@@ -1,7 +1,7 @@
 
 add_subdirectory(basic)
+add_subdirectory(configuration)
 add_subdirectory(data_processing)
-add_subdirectory(configParameters)
 
 # add_library(flash src/flash.cpp)
 
@@ -9,5 +9,5 @@ add_subdirectory(configParameters)
 #         PUBLIC
 #             basic 
 #             data_processing
-#             configParameters
+#             configuration
 # )

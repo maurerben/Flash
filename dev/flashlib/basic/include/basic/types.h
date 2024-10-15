@@ -1,5 +1,4 @@
-#ifndef FLASH_BASIC_TYPES_H
-#define FLASH_BASIC_TYPES_H
+#pragma once
 
 #include <complex>
 #include <cstdint>
@@ -29,5 +28,3 @@ using myZomplex = std::complex<myDouble>;  // the Z for double complex is an old
 }  // namespace types
 }  // namespace basic
 }  // namespace flash
-
-#endif  // FLASH_BASIC_TYPES_H
