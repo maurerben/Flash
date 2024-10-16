@@ -14,7 +14,7 @@
 namespace flash {
 namespace configParameters {
 
-template <typename T, typename = void>
+template <typename T>
 concept Scalar = 
     std::is_arithmetic<T>::value ||
     std::is_same<T, std::string>::value;

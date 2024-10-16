@@ -42,7 +42,7 @@ class Parameter {
 
     /// @brief Friend function to overload the << operator
     friend std::ostream& operator<<(std::ostream& os, const Parameter& param) {
-        os << param.name << ": " << param.value;
+        os << param.name << param.format << ": " << param.value;
         return os;
     }
 
@@ -53,6 +53,8 @@ class Parameter {
     T value;
     /// @brief Default value of the parameter. Does not need to be defined. See Parameter#load.
     std::optional<T> defaultValue;
+
+    std::string format = "";
 };
 
 }  // namespace configParameters

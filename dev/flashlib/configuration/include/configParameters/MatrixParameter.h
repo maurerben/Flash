@@ -12,16 +12,18 @@
 
 #include "Node.h"
 #include "Parameter.h"
+#include "ScalarParameter.h"
 
 namespace flash {
 namespace configParameters {
+
 /**
- * @brief Similar to Parameter but saves an array.
- * @tparam T Type of the value that Parameter holds
+ * @brief Similar to Parameter but saves a matrix.
+ * @tparam T Type of the values saved to the matrix that Parameter holds
  * @tparam Rows is the number of rows
  * @tparam Cols is the number of columns
  */
-template <typename T, std::size_t Rows, std::size_t Cols>
+template <Scalar T, std::size_t Rows, std::size_t Cols>
 class MatrixParameter : public Parameter<Eigen::Matrix<T, Rows, Cols>> {
    public:
     /// @brief Initialze with Node#name
@@ -31,7 +33,7 @@ class MatrixParameter : public Parameter<Eigen::Matrix<T, Rows, Cols>> {
     /// @brief Initilize with Node#name and Parameter#defaultValue
     /// @param[in] name
     /// @param[in] defaultValue
-    MatrixParameter(const std::string& name, const T& defaultValue)
+    MatrixParameter(const std::string& name, const Eigen::Matrix<T, Rows, Cols>& defaultValue)
         : Parameter<Eigen::Matrix<T, Rows, Cols>>(name, defaultValue) {}
 
     /**
@@ -42,33 +44,32 @@ class MatrixParameter : public Parameter<Eigen::Matrix<T, Rows, Cols>> {
      * not contain Cols elements
      */
     void load(const YAML::Node& configNode);
-    void validate() {};
 
-    /// @brief Friend function to overload the << operator
-    friend std::ostream& operator<<(std::ostream& os, const MatrixParameter& param) {
-        os << param.name << ": " << " [";
-        // for (const auto& idx : std::ranges::iota_view(0, int(Cols))) {
-        //     auto seperator = (idx == Cols - 1) ? "]" : ", ";
-        //     os << std::to_string(param.value[idx]) << seperator;
-        // }
-        return os;
-    }
-
-   protected:
-    Eigen::Matrix<T, Rows, Cols> value;
 };
 
-template <typename T, std::size_t Rows, std::size_t Cols>
-Eigen::Matrix<T, Rows, Cols> parseArrayFromNode(const YAML::Node& configNode) {
-    return Eigen::Matrix<T, Rows, Cols>::Random();
+template<Scalar T, std::size_t N>
+using VectorParameter = MatrixParameter<T, N, 1>;
+
+template <Scalar T, std::size_t Rows, std::size_t Cols>
+Eigen::Matrix<T, Rows, Cols> parseArrayFromNode(const YAML::Node& matrixNode) {
+
+    Eigen::Matrix<T, Rows, Cols> matrix;
+    for (std::size_t row=0; row<Rows; ++row) {
+        for (std::size_t col=0; col<Cols; ++col) {
+            matrix(row, col) = matrixNode[row][col].template as<T>();
+        }
+    }
+
+    return matrix;
 }
 
-template <typename T, std::size_t Rows, std::size_t Cols>
+template <Scalar T, std::size_t Rows, std::size_t Cols>
 void MatrixParameter<T, Rows, Cols>::load(const YAML::Node& configNode) {
     if (configNode[this->name]) {
         try {
-            this->value = parseArrayFromNode<T, Rows, Cols>(configNode);
+            this->value = parseArrayFromNode<T, Rows, Cols>(configNode[this->name]);
         } catch (std::runtime_error e) {
+            std::cout << e.what() << std::endl;
             throw std::runtime_error(this->name + " could not be loaded.");
         }
     } else if (this->defaultValue) {
