@@ -1,1 +1,1 @@
-add_subdirectory(configuration)
+add_subdirectory(config)

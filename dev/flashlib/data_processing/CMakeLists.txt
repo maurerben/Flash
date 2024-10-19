@@ -5,7 +5,7 @@ add_library(data_processing
 
 target_link_libraries(data_processing 
         PRIVATE
-            basic 
+            constants 
             yaml-cpp
 )
 

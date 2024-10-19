@@ -7,10 +7,8 @@
 #include <stdexcept>
 #include <string>
 
-#include "Node.h"
-
 namespace flash {
-namespace configParameters {
+namespace config {
 
 /// @class Parameter
 /// @brief Special Node that holds a value
@@ -18,31 +16,29 @@ namespace configParameters {
 template <class T>
 class Parameter {
    public:
-    /// @brief Initialze with Node#name
+    /// @brief Initialze with Parameter#name
     /// @param[in] name
     Parameter(const std::string& name) : name(name) {}
 
-    /// @brief Initilize with Node#name and Parameter#defaultValue
+    /// @brief Initilize with Parameter#name and Parameter#defaultValue
     /// @param[in] name
     /// @param[in] defaultValue
     Parameter(const std::string& name, const T& defaultValue) : name(name), defaultValue(defaultValue) {}
 
-    /// @brief Load configuration from \a configNode
-    /// @param configNode contains cofiguration file
+    /// @brief Load configuration from \a node
+    /// @param node contains cofiguration file
     /// @throws std::runtime_error if something goes wrong during loading
-    virtual void load(const YAML::Node& configNode) {};
+    virtual void load(const YAML::Node& node) {};
 
     /// @brief Transform instance of Parameter to \p T.
     operator T() const { return value; }
 
     /// @brief Overload == operator
-    bool operator==(const T& other) const {
-        return this->value == other;
-    }
+    bool operator==(const T& other) const { return this->value == other; }
 
     /// @brief Friend function to overload the << operator
     friend std::ostream& operator<<(std::ostream& os, const Parameter& param) {
-        os << param.name << param.format << ": " << param.value;
+        os << param.name << ": " << param.format << param.value;
         return os;
     }
 
@@ -54,8 +50,8 @@ class Parameter {
     /// @brief Default value of the parameter. Does not need to be defined. See Parameter#load.
     std::optional<T> defaultValue;
 
-    std::string format = "";
+    std::string format = "\n";
 };
 
-}  // namespace configParameters
+}  // namespace config
 }  // namespace flash
