@@ -26,7 +26,7 @@ include(cmake/ConfigEigen.cmake)
 include(cmake/ConfigBoost.cmake)
 
 # Include libraries
-add_subdirectory(flashlib)
+add_subdirectory(libs)
 
 # Include application
 add_subdirectory(app)
@@ -35,7 +35,7 @@ add_subdirectory(app)
 add_subdirectory(tests)
 
 # Set compile options for different build types
-set(CMAKE_CXX_FLAGS_DEBUG "-g3 -O0 -tr")
+set(CMAKE_CXX_FLAGS_DEBUG "-g3 -O0 -tr -fsanitize=address ")
 set(CMAKE_CXX_FLAGS_RELEASE "-O3")
 
 # Write include dirs to a file

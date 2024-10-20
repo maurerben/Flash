@@ -20,51 +20,51 @@ typedef std::unordered_set<std::string> options_t;
 /// @class Option parameter class
 class Option : public Parameter<std::string> {
    public:
-    /// @brief Initialze with Node#name
-    /// @param[in] name Name that is the key of the value that will be loaded from the config file.
+    /// @brief Initialze with Node#key
+    /// @param[in] key Name that is the key of the value that will be loaded from the config file.
     /// @param[in] options Option#value need to be initialized as one of the options.
-    Option(const std::string& name, const options_t& options) : Parameter<std::string>(name), options(options) {}
+    Option(const std::string& key, const options_t& options) : Parameter<std::string>(key), options(options) {}
 
-    /// @brief Initilize with Node#name and Parameter#defaultValue
-    /// @param[in] name
+    /// @brief Initilize with Node#key and Parameter#defaultValue
+    /// @param[in] key
     /// @param[in] defaultValue
-    Option(const std::string& name, const options_t& options, const std::string& defaultValue)
-        : Parameter<std::string>(name, defaultValue), options(options) {
+    Option(const std::string& key, const options_t& options, const std::string& defaultValue)
+        : Parameter<std::string>(key, defaultValue), options(options) {
         if (options.find(defaultValue) == options.end()) {
             std::string error_message =
 
-                this->name + " was initialized with defaultValue '" + this->defaultValue.value() +
+                this->key + " was initialized with defaultValue '" + this->defaultValue.value() +
                 "' which is none of the allowed options: " + optionsToString();
             throw std::runtime_error(error_message);
         }
     }
 
     /// @brief Setup Parameter#value
-    /// @details If \p node has no key Parameter#name, Parameter#value is options to Parameter#defaultValue
+    /// @details If \p node has no key Parameter#key, Parameter#value is options to Parameter#defaultValue
     /// @param[in] node contains configuration
-    /// @throws runtime_error if \p node has no key Parameter#name and Parameter#defaultValue is not options
+    /// @throws runtime_error if \p node has no key Parameter#key and Parameter#defaultValue is not options
     void load(const YAML::Node& node) override {
-        if (node[this->name]) {
-            if (node[this->name].IsScalar()) {
+        if (node[this->key]) {
+            if (node[this->key].IsScalar()) {
                 try {
-                    this->value = node[this->name].as<std::string>();
+                    this->value = node[this->key].as<std::string>();
                 } catch (std::runtime_error e) {
                     std::cout << e.what() << std::endl;
-                    throw std::runtime_error(this->name + " could not be loaded.");
+                    throw std::runtime_error(this->key + " could not be loaded.");
                 } catch (...) {
                     std::cout << "Caught an unknown exception!" << std::endl;
-                    throw std::runtime_error(this->name + " could not be loaded.");
+                    throw std::runtime_error(this->key + " could not be loaded.");
                 }
             } else {
-                throw std::runtime_error(this->name + " could not be loaded. Expected a scalar node.");
+                throw std::runtime_error(this->key + " could not be loaded. Expected a scalar node.");
             }
         } else if (this->defaultValue) {
             this->value = this->defaultValue.value();
         } else {
-            throw std::runtime_error(this->name + " is not defined.");
+            throw std::runtime_error(this->key + " is not defined.");
         }
         if (options.find(this->value) == options.end()) {
-            std::string error_message = this->name + " loaded value '" + this->value +
+            std::string error_message = this->key + " loaded value '" + this->value +
                                         "' which is none of the allowed options: " + optionsToString();
             throw std::runtime_error(error_message);
         }

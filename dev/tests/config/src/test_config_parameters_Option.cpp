@@ -14,7 +14,7 @@
 
 namespace fcp = flash::config::parameters;
 
-auto configFileWithOptions = YAML::Load(
+auto configFile = YAML::Load(
     R"(
     greeting: hello
     noGreeting: bye
@@ -26,17 +26,17 @@ fcp::options_t greetings{"hello", "hi"};
 TEST_CASE("Test flash::config::parameters::Option class for string type with exception checking") {
     // Option parameter initialized from config file
     fcp::Option hello("greeting", greetings);
-    hello.load(configFileWithOptions);
-    REQUIRE(hello == configFileWithOptions["greeting"].as<std::string>());
+    hello.load(configFile);
+    REQUIRE(hello == configFile["greeting"].as<std::string>());
 
     // Option parameter with a default value, loaded from config file
     fcp::Option helloDefault("greeting", greetings, "hi");
-    helloDefault.load(configFileWithOptions);
-    REQUIRE(helloDefault == configFileWithOptions["greeting"].as<std::string>());
+    helloDefault.load(configFile);
+    REQUIRE(helloDefault == configFile["greeting"].as<std::string>());
 
     // Option parameter with missing key and a default value
     fcp::Option missingKey("insults", greetings, "hi");
-    missingKey.load(configFileWithOptions);
+    missingKey.load(configFile);
     REQUIRE(missingKey == "hi");
 
     // Option parameter trys to initialize with default value that is not in options throws std::runtime_error
@@ -44,9 +44,9 @@ TEST_CASE("Test flash::config::parameters::Option class for string type with exc
 
     // Option parameter trys to load a value that is not an option throws std::runtime_error
     fcp::Option valueIsNotAnOption("noGreeting", greetings);
-    REQUIRE_THROWS_AS(valueIsNotAnOption.load(configFileWithOptions), std::runtime_error);
+    REQUIRE_THROWS_AS(valueIsNotAnOption.load(configFile), std::runtime_error);
 
     // Option parameter trys to load from key with a list as value throws std::runtime_error
     fcp::Option valueIsList("list", greetings);
-    REQUIRE_THROWS_AS(valueIsList.load(configFileWithOptions), std::runtime_error);
+    REQUIRE_THROWS_AS(valueIsList.load(configFile), std::runtime_error);
 }

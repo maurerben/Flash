@@ -25,7 +25,7 @@ int main(int argc, char* argv[]) {
             myGrid:
                 sampling: [1, 2, 4]
                 offset: [0.5, 0.5, 0.5]
-                lattice:
+                parallelepiped:
                     - [1, 0, 0]
                     - [0, 0, 1]
                     - [0, 1, 0]      
@@ -55,7 +55,7 @@ int main(int argc, char* argv[]) {
     // std::cout << mySecondParam << std::endl;
     // std::cout << myThirdParam << std::endl;
     // std::cout << myFourthParam << std::endl;
-    // std::cout << myGrid.Lattice << std::endl;
+    // std::cout << myGrid.Parallelepiped << std::endl;
     std::cout << myStringParam << std::endl;
     // std::cout << configFile["greeting"] << std::endl;
 
