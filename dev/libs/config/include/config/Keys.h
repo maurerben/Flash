@@ -27,6 +27,10 @@ const inline std::string ENERGYINTERVAL{"energy_interval"};
 const inline std::string NSAMPLING{"n_sampling"};
 /// @brief Indicate a peal
 const inline std::string PEAK{"peak"};
+/// @brief Indicate a ground state
+const inline std::string ELECTRONICSTATES{"ground_state"};
+/// @brief Indicate a spectrum
+const inline std::string SPECTRUM{"spectrum"};
 
 }  // namespace keys
 }  // namespace config

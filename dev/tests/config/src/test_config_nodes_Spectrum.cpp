@@ -52,8 +52,7 @@ auto configFile = YAML::Load(
         nSamplingEqual0:
             energy_interval: [1.0, 2.0]
             n_sampling: 0
-    )"
-);
+    )");
 
 TEST_CASE("Test flash::config::nodes::Spectrum class") {
     // Spectrum loads from config file node with full definition
@@ -70,13 +69,13 @@ TEST_CASE("Test flash::config::nodes::Spectrum class") {
 
     // Spectrum loads from config file node with missing peak definition
     auto defaultWidth = fcn::defaultWidth;
-    auto defaultForm = fcn::defaultForm;
+    auto defaultPeak = fcn::defaultPeak;
     fcn::Spectrum missingPeak("missingPeak");
     missingPeak.load(configFile["valid"]);
     REQUIRE(missingPeak.energyInterval == referenceEnergyInterval);
     REQUIRE(missingPeak.nSampling == referenceNSamplingPoints);
     REQUIRE(missingPeak.peak.width == defaultWidth);
-    REQUIRE(missingPeak.peak.form == defaultForm);
+    REQUIRE(missingPeak.peak.form == defaultPeak);
 
     // Spectrum attempt to load from missing node throws std::runtime_error
     fcn::Spectrum missingNode("notAKey");

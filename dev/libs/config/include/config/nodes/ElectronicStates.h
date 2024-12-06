@@ -16,16 +16,16 @@ namespace flash {
 namespace config {
 namespace nodes {
 
-using parameters::Size;
 using parameters::Double;
+using parameters::Size;
 
 /// @brief Ground state configuration node
-class GroundState : Node {
+class ElectronicStates : Node {
    public:
     /**
      * @brief See Node.
      */
-    GroundState(const std::string& key) : Node(key) {}
+    ElectronicStates(const std::string& key) : Node(key) {}
 
     /**
      * @brief **k**-grid on which the groun state is prepared. See RegularGrid.
@@ -50,11 +50,11 @@ class GroundState : Node {
     /**
      * @brief Occupied part of the bands
      * @details The occupation factor is defined as the number of occupied
-     *          states devided by GroundState#nStates. If the occupation is
+     *          states devided by ElectronicStates#nStates. If the occupation is
      *          constant on the **k**-points, the number of occupied bands can
-     *          obtained by `GroundState#nStates * GroundState#occupiedPart`.
+     *          obtained by `ElectronicStates#nStates * ElectronicStates#occupiedPart`.
      *          If this is not true, then the number of occupied Orbitals, given by
-     *          `GroundState#nStates * GroundState#occupiedPart * Groundstate#kGrid#sampling.prod()`
+     *          `ElectronicStates#nStates * ElectronicStates#occupiedPart * ElectronicStates#kGrid#sampling.prod()`
      *          must be an integral.
      *          #### Rules
      *              - Must be `> 0.0` and `< 1.0`
@@ -62,10 +62,10 @@ class GroundState : Node {
      *          #### Default
      *              Must be defined
      */
-    Double occupiedPart {keys::OCCUPIED_PART};
+    Double occupiedPart{keys::OCCUPIED_PART};
 
     /**
-     * @brief Load GroundState instance from a config node.
+     * @brief Load ElectronicStates instance from a config node.
      * @param node Node that holds the configuration data.
      * @throws std::runtime_error if something goes wrong.
      */

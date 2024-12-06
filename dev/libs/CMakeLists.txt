@@ -1,6 +1,7 @@
 
 add_subdirectory(constants)
 add_subdirectory(config)
+add_subdirectory(physics)
 add_subdirectory(data_processing)
 
 # add_library(flash src/flash.cpp)

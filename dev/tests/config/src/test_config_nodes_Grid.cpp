@@ -103,8 +103,7 @@ auto configFile = YAML::Load(
                 - [1, 0, 0]
                 - [0, 0, 1]
                 - [0, 1]
-    )"
-);
+    )");
 
 TEST_CASE("Test flash::config::nodes::RegularGrid class") {
     // RegularGrid loads from config file node with full definition
@@ -173,7 +172,8 @@ TEST_CASE("Test flash::config::nodes::RegularGrid class") {
     fcn::RegularGrid invalidOffsetForm("invalidOffsetForm");
     REQUIRE_THROWS_AS(invalidOffsetForm.load(configFile["invalid"]), std::runtime_error);
 
-    // Regular node attempts to load from node defining the last row of parallelepiped with two elements throws std::runtime_error
+    // Regular node attempts to load from node defining the last row of parallelepiped with two elements throws
+    // std::runtime_error
     fcn::RegularGrid invalidParallelepipedForm("invalidParallelepipedForm");
     REQUIRE_THROWS_AS(invalidParallelepipedForm.load(configFile["invalid"]), std::runtime_error);
 }

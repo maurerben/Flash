@@ -36,8 +36,7 @@ auto configFile = YAML::Load(
         formIsNotAnOption:
             width: 0.002
             form: sin
-    )"
-);
+    )");
 
 TEST_CASE("Test flash::config::nodes::Peak class") {
     // Peak loads from config file node with full definition
@@ -56,17 +55,17 @@ TEST_CASE("Test flash::config::nodes::Peak class") {
     REQUIRE(missingWidth.form == referenceForm);
 
     // Peak loads from config file node with undefined width
-    auto defaultForm = fcn::defaultForm;
+    auto defaultPeak = fcn::defaultPeak;
     fcn::Peak missingForm("missingForm");
     missingForm.load(configFile["valid"]);
     REQUIRE(missingForm.width == referenceWidth);
-    REQUIRE(missingForm.form == defaultForm);
+    REQUIRE(missingForm.form == defaultPeak);
 
     // Peak attemts to load from missing key loads default values
     fcn::Peak missingNode("notAKey");
     missingNode.load(configFile["valid"]);
     REQUIRE(missingNode.width == defaultWidth);
-    REQUIRE(missingNode.form == defaultForm);
+    REQUIRE(missingNode.form == defaultPeak);
 
     // Peak attempts to load from config file node with zero width throws std::runtime_error
     fcn::Peak widthEqualZero("widthEqualZero");
@@ -75,5 +74,4 @@ TEST_CASE("Test flash::config::nodes::Peak class") {
     // Peak attempts to load from config file node defining a form that is not an option throws std::runtime_error
     fcn::Peak formIsNotAnOption("formIsNotAnOption");
     REQUIRE_THROWS_AS(formIsNotAnOption.load(configFile["invalid"]), std::runtime_error);
-
 }

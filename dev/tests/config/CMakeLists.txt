@@ -13,8 +13,8 @@ include(cmake/TestConfigParametersMatrix.cmake)
 # Add the test executable for test_config_nodes_Grid
 include(cmake/TestConfigNodesGrid.cmake)
 
-# Add the test executable for test_config_nodes_GroundState
-include(cmake/TestConfigNodesGroundState.cmake)
+# Add the test executable for test_config_nodes_ElectronicStates
+include(cmake/TestConfigNodesElectronicStates.cmake)
 
 # Add the test executable for test_config_nodes_Peak
 include(cmake/TestConfigNodesPeak.cmake)

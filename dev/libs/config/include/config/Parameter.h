@@ -30,7 +30,7 @@ class Parameter {
     /// @throws std::runtime_error if loading Parameter%value fails
     virtual void load(const YAML::Node& node) {};
 
-    T Value() const {return value;}
+    T Value() const { return value; }
 
     /// @brief Transform instance of Parameter to \p T.
     operator T() const { return value; }

@@ -16,7 +16,7 @@ class Node {
     /// @brief Initilize a node and set Node#key
     /// @param key See Node#key
     /// @param is_madatory See Node#is_madatory
-    Node(const std::string& key) : key(key){}
+    Node(const std::string& key) : key(key) {}
 
     /// @brief Load configuration from \a node
     /// @param node contains cofiguration file

@@ -1,71 +1,116 @@
-#include <config/nodes/Grid.h>
-#include <config/parameters/Matrix.h>
-#include <config/parameters/Option.h>
-#include <config/parameters/Scalar.h>
-#include <config/parameters/Vector.h>
+#include <config/nodes/Input.h>
+#include <config/nodes/Output.h>
+// #include <data_processing/hdf5.h>
+#include <physics/electrons/ElectronicStates.h>
 #include <yaml-cpp/yaml.h>
 
 #include <Eigen/Dense>
 #include <boost/program_options.hpp>
 #include <complex>
+#include <cstdlib>
 #include <iostream>
+#include <map>
 
+namespace po = boost::program_options;
 namespace fcp = flash::config::parameters;
 namespace fcn = flash::config::nodes;
+namespace fpe = flash::physics::electrons;
+
+/**
+ * @brief Parse command line arguments.
+ */
+std::map<std::string, std::string> parseCommandLine(int argc, char* argv[]) {
+    po::options_description desc("Allowed options");
+    desc.add_options()("help,h", "produce help message")("input-config,i", po::value<std::string>(),
+                                                         "input configuration file")(
+        "output-config,o", po::value<std::string>(), "output configuration file");
+
+    po::variables_map vm;
+    po::store(po::parse_command_line(argc, argv, desc), vm);
+    po::notify(vm);
+
+    if (vm.count("help")) {
+        std::cout << desc << "\n";
+        std::exit(0);
+    }
+
+    std::string inputConfigFilePath;
+    if (vm.count("input")) {
+        inputConfigFilePath = vm["input"].as<std::string>();
+    } else {
+        inputConfigFilePath = "config.yaml";
+    }
+
+    std::string outputConfigFilePath;
+    if (vm.count("output")) {
+        outputConfigFilePath = vm["output"].as<std::string>();
+    } else {
+        outputConfigFilePath = "config.yaml";
+    }
+
+    return std::map<std::string, std::string>{{"input-config", inputConfigFilePath},
+                                              {"output-config", outputConfigFilePath}};
+}
+
+/**
+ * @brief Parse input configuration.
+ */
+fcn::Input parseInputConfiguration(std::string configFile) {
+    auto config = YAML::LoadFile(configFile);
+
+    fcn::Input input("input");
+    input.load(config);
+
+    return input;
+}
+
+/**
+ * @brief Parse output configuration.
+ */
+fcn::Output parseOutputConfiguration(std::string configFile) {
+    auto config = YAML::LoadFile(configFile);
+
+    fcn::Output output("output");
+    output.load(config);
+
+    return output;
+}
 
 int main(int argc, char* argv[]) {
-    auto configFile = YAML::Load(
-        R"(
-            myFirstParam: 3
-            mySecondParam: 3
-            myThirdParam: [1, 2, 3, 4]
-            myFourthParam: 
-                - a
-                - [1, 2, 3]
-            myGrid:
-                sampling: [1, 2, 4]
-                offset: [0.5, 0.5, 0.5]
-                parallelepiped:
-                    - [1, 0, 0]
-                    - [0, 0, 1]
-                    - [0, 1, 0]      
-            greeting: hello       
-        )");
+    auto cmdArgs = parseCommandLine(argc, argv);
 
-    fcp::Scalar<int> myFirstParam("myFirstParam");
-    fcp::Scalar<float> mySecondParam("mySecondParam", 3.14);
-    fcp::Vector<int, 4> myThirdParam("myThirdParam");
-    fcp::Matrix<int, 2, 3> myFourthParam("myFourthParam");
+    auto inputConfig = parseInputConfiguration(cmdArgs["input-config"]);
+    auto outputConfig = parseOutputConfiguration(cmdArgs["output-config"]);
 
-    fcp::options_t options{"hello", "hi"};
-    fcp::Option myStringParam("greeting", options, "hi");
+    std::cout << inputConfig.electronicStates.kGrid.sampling << std::endl;
 
-    fcn::RegularGrid myGrid("myGrid");
+    Eigen::Vector<std::double_t, 6> energies;
+    energies << 1.0, 1.0, 2.0, 2.0, 3.0, 3.0;
 
-    myFirstParam.load(configFile);
-    mySecondParam.load(configFile);
-    myThirdParam.load(configFile);
-    myFourthParam.load(configFile);
-    myStringParam.load(configFile);
-    // std::cout << 2 << std::endl;
-    myGrid.load(configFile);
-    // std::cout << 2 << std::endl;
+    Eigen::Vector<std::double_t, 6> occupations;
+    occupations << 1.0, 1.0, 1.0, 1.0, 0.0, 0.0;
 
-    // std::cout << myFirstParam << std::endl;
-    // std::cout << mySecondParam << std::endl;
-    // std::cout << myThirdParam << std::endl;
-    // std::cout << myFourthParam << std::endl;
-    // std::cout << myGrid.Parallelepiped << std::endl;
-    std::cout << myStringParam << std::endl;
-    // std::cout << configFile["greeting"] << std::endl;
+    Eigen::Vector<std::size_t, 6> kPointMap;
+    kPointMap << 1, 2, 1, 2, 1, 2;
 
-    // fcp::Scalar<std::string> myStringParam("cplx");
-    // myStringParam.load(YAML::Load("cplx: 1,));
+    Eigen::Vector<std::size_t, 6> bandMap;
+    bandMap << 1, 1, 2, 2, 3, 3;
 
-    // auto z = std::complex<int>("1 + 2j")
+    auto electrons = fpe::ElectronicStates(energies, occupations, kPointMap, bandMap);
 
-    // std::cout<<myStringParam<<std::endl;
-    // std::cout<<std::complex<int>(1, 2)<<std::endl;
+    // for (auto electron = electrons.begin(); electron != electrons.end(); ++electron) {
+    //     auto [energy, occupation, kPoint, band] = *electron;
+    //     std::cout << "Energy: " << energy << " Occupation: " << occupation << " kPoint: " << kPoint << " Band: " << band
+    //               << std::endl;
+    // }
+    
+    auto electronsAtK1 = electrons.atKPoint(1);
+    auto occupiedElectrons = electrons.occupied();
 
-    return 0;
+    for (auto electron : occupiedElectrons) {
+        auto [energy, occupation, kPoint, band] = electron;
+        std::cout << "Energy: " << energy << " Occupation: " << occupation << " kPoint: " << kPoint << " Band: " << band
+                  << std::endl;
+    }
+
 }

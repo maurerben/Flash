@@ -6,6 +6,8 @@ target_link_libraries(app
         constants
         config
         data_processing 
+        physics
         yaml-cpp
+        HDF5::HDF5
         ${Boost_LIBRARIES}
 )

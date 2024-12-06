@@ -14,9 +14,9 @@ namespace flash {
 namespace config {
 namespace nodes {
 
-using parameters::Sampling;
 using parameters::Coordinate;
 using parameters::CoordinateTrafo;
+using parameters::Sampling;
 
 /**
  * @brief Regular grid configuration node.

@@ -83,7 +83,6 @@ class Vector : public Parameter<Eigen::Vector<T, N>> {
     }
 };
 
-
 /// @brief Parameter type for sampling
 using Sampling = Vector<std::size_t, 3>;
 /// @brief Parameter type for coordinate
