@@ -94,6 +94,8 @@ class RegularGrid : Node {
         return;
     }
 
+//    std::size_t size() {return sampling.prod();}
+
    private:
     void validateRules() {
         // Sampling must be >= 1 in every dimension

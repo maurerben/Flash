@@ -3,10 +3,9 @@ add_library(data_processing
 )
 
 target_link_libraries(data_processing 
-        PRIVATE
-            constants 
-            config
+        PUBLIC
             HDF5::HDF5
+            Eigen3::Eigen
 )
 
 target_include_directories(data_processing

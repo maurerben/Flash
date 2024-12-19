@@ -83,6 +83,8 @@ class ElectronicStates : Node {
         validateRules();
     };
 
+    std::size_t size() const {return nStates * kGrid.sampling.prod();}
+
    private:
     void validateRules() {
         // nStates must be > 1

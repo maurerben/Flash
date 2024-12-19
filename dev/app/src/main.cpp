@@ -1,6 +1,8 @@
 #include <config/nodes/Input.h>
 #include <config/nodes/Output.h>
-// #include <data_processing/hdf5.h>
+#include <config/nodes/Grid.h>
+#include <config/parameters/Vector.h>
+#include <data_processing/hdf5.h>
 #include <physics/electrons/ElectronicStates.h>
 #include <yaml-cpp/yaml.h>
 
@@ -10,6 +12,7 @@
 #include <cstdlib>
 #include <iostream>
 #include <map>
+#include <array>
 
 namespace po = boost::program_options;
 namespace fcp = flash::config::parameters;
@@ -76,41 +79,28 @@ fcn::Output parseOutputConfiguration(std::string configFile) {
     return output;
 }
 
-int main(int argc, char* argv[]) {
+int main(int argc, char* argv[])
+{
     auto cmdArgs = parseCommandLine(argc, argv);
 
     auto inputConfig = parseInputConfiguration(cmdArgs["input-config"]);
     auto outputConfig = parseOutputConfiguration(cmdArgs["output-config"]);
 
-    std::cout << inputConfig.electronicStates.kGrid.sampling << std::endl;
+    fpe::ElectronicStates electrons{"electrons.h5", inputConfig.electronicStates};
 
-    Eigen::Vector<std::double_t, 6> energies;
-    energies << 1.0, 1.0, 2.0, 2.0, 3.0, 3.0;
+    for (auto electron = electrons.begin(); electron != electrons.end(); ++electron) {
+        auto [energy, occupation, kPoint, band] = *electron;
+        std::cout << "Energy: " << energy << " Occupation: " << occupation << " kPoint: " << kPoint << " Band: " << band
+                  << std::endl;
+    }
 
-    Eigen::Vector<std::double_t, 6> occupations;
-    occupations << 1.0, 1.0, 1.0, 1.0, 0.0, 0.0;
-
-    Eigen::Vector<std::size_t, 6> kPointMap;
-    kPointMap << 1, 2, 1, 2, 1, 2;
-
-    Eigen::Vector<std::size_t, 6> bandMap;
-    bandMap << 1, 1, 2, 2, 3, 3;
-
-    auto electrons = fpe::ElectronicStates(energies, occupations, kPointMap, bandMap);
-
-    // for (auto electron = electrons.begin(); electron != electrons.end(); ++electron) {
-    //     auto [energy, occupation, kPoint, band] = *electron;
-    //     std::cout << "Energy: " << energy << " Occupation: " << occupation << " kPoint: " << kPoint << " Band: " << band
-    //               << std::endl;
-    // }
-    
     auto electronsAtK1 = electrons.atKPoint(1);
     auto occupiedElectrons = electrons.occupied();
-
     for (auto electron : occupiedElectrons) {
         auto [energy, occupation, kPoint, band] = electron;
         std::cout << "Energy: " << energy << " Occupation: " << occupation << " kPoint: " << kPoint << " Band: " << band
                   << std::endl;
     }
 
+    return 0;
 }

@@ -9,6 +9,7 @@
 #include <string>
 #include <type_traits>
 #include <vector>
+#include <array>
 
 namespace flash {
 namespace data_processing {
@@ -23,9 +24,12 @@ concept ArithmeticType = std::is_arithmetic<T>::value;
  * @tparam T The type of the elements of the vector.
  * @param dataset The dataset to read the vector from.
  * @return The vector read from the dataset.
- */
-template<ArithmeticType T> Eigen::Vector<T, Eigen::Dynamic> 
-read_vector(const H5::DataSet& dataset);
+// */
+//    template<typename T, std::size_t N> void
+//    read_vector( H5::DataSet& dataset, T* data );
+
+template<std::size_t N>
+void read_data(H5::DataSet& dataset, std::double_t data[N]);
 
 
 }  // namespace hdf5

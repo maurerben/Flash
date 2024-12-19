@@ -1,7 +1,5 @@
 #pragma once
-
-#include <physics/electrons/ElectronicStates.h>
-
+#include <config/nodes/ElectronicStates.h>
 #include <data_processing/hdf5.h>
 #include <Eigen/Dense>
 #include <cstdint>
@@ -10,6 +8,7 @@
 #include <string>
 #include <vector>
 #include <array>
+#include <iostream>
 
 namespace flash {
 namespace physics {
@@ -44,13 +43,8 @@ class ElectronicStates {
                      const Eigen::Vector<std::size_t, Eigen::Dynamic>& kPointMap,
                      const Eigen::Vector<std::size_t, Eigen::Dynamic>& bandMap);
 
-    /**
-     * @brief Constructs an ElectronicStates object from an HDF5 file.
-     * 
-     * @param file The HDF5 file to read the electronic states from.
-     */
-    ElectronicStates(const std::string& file);
-    
+
+    ElectronicStates(const std::string& filename, const config::nodes::ElectronicStates& inputConfig);
 
     /**
      * @brief Filters the electronic states at a specific k-point.

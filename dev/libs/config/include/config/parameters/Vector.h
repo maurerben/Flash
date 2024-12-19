@@ -32,6 +32,9 @@ class Vector : public Parameter<Eigen::Vector<T, N>> {
     Vector(const std::string& key, const Eigen::Vector<T, N>& defaultValue)
         : Parameter<Eigen::Vector<T, N>>(key, defaultValue) {}
 
+    T prod() const {return this->value.prod();}
+    T sum() const {return this->value.sum();}
+
     /// @brief See Parameter#load
     /// @param[in] node
     /// @throws std::runtime_error
