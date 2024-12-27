@@ -80,14 +80,14 @@ class ElectronicStates {
 
     /**
      * @brief Gets the vector of energy values.
-     * 
+     *
      * @return A constant reference to the vector of energy values.
      */
     const Eigen::Vector<std::double_t, Eigen::Dynamic>& getEnergies() const;
 
     /**
      * @brief Gets the vector of occupation numbers.
-     * 
+     *
      * @return A constant reference to the vector of occupation numbers.
      */
     const Eigen::Vector<std::double_t, Eigen::Dynamic>& getOccupations() const;

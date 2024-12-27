@@ -14,4 +14,4 @@ Checks: >
 
 WarningsAsErrors: ''
 HeaderFilterRegex: '.*'
-AnalyzeTemporaryDtors: false
+#AnalyzeTemporaryDtors: false

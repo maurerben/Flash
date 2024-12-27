@@ -4,6 +4,7 @@
 #include <config/parameters/Vector.h>
 #include <data_processing/hdf5.h>
 #include <physics/electrons/ElectronicStates.h>
+#include <physics/electrons/Index.h>
 #include <yaml-cpp/yaml.h>
 
 #include <Eigen/Dense>
@@ -81,6 +82,7 @@ fcn::Output parseOutputConfiguration(std::string configFile) {
 
 int main(int argc, char* argv[])
 {
+    std::cout<<"Hello World"<<std::endl;
     auto cmdArgs = parseCommandLine(argc, argv);
 
     auto inputConfig = parseInputConfiguration(cmdArgs["input-config"]);

@@ -26,23 +26,27 @@ INCLUDE_LIBS_EXT = "/usr/include/eigen3 /usr/include/catch2 /usr/include/hdf5/se
 
 all: debug release documentation
 
-debug:
+build-debug:
 	mkdir -p $(DEBUG_DIR)
 	cd $(DEBUG_DIR); cmake -DCMAKE_BUILD_TYPE=Debug $(SRC_DIR)
 	cd $(DEBUG_DIR); cmake --build  .
 
-release:
+test-debug:
+	cd $(DEBUG_DIR) && ctest --rerun-failed --output-on-failure
+
+clean-debug:
+	rm -rf $(DEBUG_DIR)
+
+build-release:
 	mkdir -p $(RELEASE_DIR)
 	cd $(RELEASE_DIR); cmake -DCMAKE_BUILD_TYPE=Release $(SRC_DIR)
 	cd $(RELEASE_DIR); cmake --build  .
 
-test: test-debug test-release
-
-test-debug:
-	cd $(DEBUG_DIR) && ctest --rerun-failed --output-on-failure
-
 test-release:
 	cd $(RELEASE_DIR) && ctest --rerun-failed --output-on-failure
+
+clean-release:
+	rm -rf $(RELEASE_DIR)
 
 documentation:
 	mkdir -p $(DOC_DIR)
@@ -51,6 +55,9 @@ documentation:
 	$(REPLACE_CMD) DOC_DIR $(DOC_DIR) $(DOC_DIR)/Doxyfile
 	doxygen $(DOC_DIR)/Doxyfile
 
+clean-doc:
+	rm -rf $(DOC_DIR)
+
 linter: clang-tidy clang-format
 
 clang-tidy:
@@ -58,7 +65,6 @@ clang-tidy:
 
 clang-format:
 	$(CLANG_FORMAT_CMD) $(CLANG_FORMAT_STYLE) $(SRC_DIR)
-
 
 clean:
 	rm -rf build

@@ -28,7 +28,7 @@ flash::physics::electrons::ElectronicStates::ElectronicStates(
           size != kPointMap.size() ||
           size != bandMap.size()
         ) {
-        throw std::invalid_argument("All input vectors must have the size as indicated by the metadata.");
+        throw std::invalid_argument("All input vectors must have the size.");
     }
 }
 
