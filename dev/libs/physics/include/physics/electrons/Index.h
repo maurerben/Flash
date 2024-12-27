@@ -52,9 +52,7 @@ class Index {
         Eigen::Index getBand() const {return band;}
 
         // @brief Gets the index as a tuple.
-        std::tuple<Eigen::Index, Eigen::Index, Eigen::Index> asTuple() const {
-            return std::make_tuple(electron, kpoint, band);
-        }
+        std::tuple<Eigen::Index, Eigen::Index, Eigen::Index> asTuple() const;
 
         /**
          * @brief Compares two indices.
@@ -62,11 +60,7 @@ class Index {
          * @param other The other index to compare with.
          * @return True if the indices are equal, false otherwise.
          */
-        bool operator == (const Index& other) const {
-            return electron == other.electron &&
-                   kpoint == other.kpoint &&
-                   band == other.band;
-        }
+        bool operator == (const Index& other) const;
 
         /**
          * @brief Compares two indices.
@@ -74,9 +68,7 @@ class Index {
          * @param other The other index to compare with.
          * @return True if the indices are not equal, false otherwise.
          */
-        bool operator != (const Index& other) const {
-            return !(*this == other);
-        }
+        bool operator != (const Index& other) const;
 
         /**
          * @brief Checks if the electron is occupied.
@@ -84,9 +76,8 @@ class Index {
          * @param zeroTolerance The zero tolerance for the occupation.
          * @return True if the electron is occupied, false otherwise.
          */
-        bool isOccupied(const Eigen::Vector<std::double_t, Eigen::Dynamic>& occupations, const std::double_t& zeroTolerance) const {
-            return occupations[electron] > zeroTolerance;
-        }
+        bool isOccupied(const Eigen::Vector<std::double_t, Eigen::Dynamic>& occupations, const std::double_t& zeroTolerance) const;
+
 
         /**
          * @brief Checks if the electron is unoccupied.
@@ -94,9 +85,7 @@ class Index {
          * @param zeroTolerance The zero tolerance for the occupation.
          * @return True if the electron is unoccupied, false otherwise.
          */
-        bool isUnoccupied(const Eigen::Vector<std::double_t, Eigen::Dynamic>& occupations, const std::double_t& zeroTolerance) const {
-            return occupations[electron] <= zeroTolerance;
-        }
+        bool isUnoccupied(const Eigen::Vector<std::double_t, Eigen::Dynamic>& occupations, const std::double_t& zeroTolerance) const;
 
 };
 
@@ -123,87 +112,39 @@ class Indices {
          * @param NumberOfKpoints The number of k-points.
          * @param NumberOfBands The number of bands.
          */
-        Indices(const Eigen::Index& NumberOfKpoints, const Eigen::Index& NumberOfBands) {
-            for (Eigen::Index kpoint = 0; kpoint < NumberOfKpoints; ++kpoint) {
-                for (Eigen::Index band = 0; band < NumberOfBands; ++band) {
-                    indices.push_back(Index(kpoint * NumberOfBands + band, kpoint, band));
-                }
-            }
-        }
+        Indices(const Eigen::Index& NumberOfKpoints, const Eigen::Index& NumberOfBands);
 
         // @brief Destructor
-        ~Indices() {
-            indices.clear();
-        };
+        ~Indices();
 
         // @brief Gets the number of indices.
-        Eigen::Index size() const {return indices.size();}
+        Eigen::Index size() const;
 
         // @brief Gets the index at a specific position.
-        Index operator[](const Eigen::Index& index) const {return indices[index];}
+        Index operator[](const Eigen::Index& index) const;
 
         // @brief Gets the electron indices as a Eigen::Vector.
-        Eigen::Vector<Eigen::Index, Eigen::Dynamic> getElectrons() const {
-            Eigen::Vector<Eigen::Index, Eigen::Dynamic> electrons(size());
-            for (Eigen::Index i = 0; i < size(); ++i) {
-                electrons[i] = indices[i].getElectron();
-            }
-            return electrons;
-        }
+        Eigen::Vector<Eigen::Index, Eigen::Dynamic> getElectrons() const;
 
         // @brief Gets the k-point indices as a Eigen::Vector.
-        Eigen::Vector<Eigen::Index, Eigen::Dynamic> getKpoints() const {
-            Eigen::Vector<Eigen::Index, Eigen::Dynamic> kpoints(size());
-            for (Eigen::Index i = 0; i < size(); ++i) {
-                kpoints[i] = indices[i].getKpoint();
-            }
-            return kpoints;
-        }
+        Eigen::Vector<Eigen::Index, Eigen::Dynamic> getKpoints() const;
 
         // @brief Gets the band indices as a Eigen::Vector.
-        Eigen::Vector<Eigen::Index, Eigen::Dynamic> getBands() const {
-            Eigen::Vector<Eigen::Index, Eigen::Dynamic> bands(size());
-            for (Eigen::Index i = 0; i < size(); ++i) {
-                bands[i] = indices[i].getBand();
-            }
-            return bands;
-        }
+        Eigen::Vector<Eigen::Index, Eigen::Dynamic> getBands() const;
 
         /**
          * @brief Filters the indices at a specific k-point.
          * @param kPoint The k-point index to filter by.
          * @return A new Indices object containing only the indices at the specified k-point.
          */
-        Indices atKpoint(const Eigen::Index& kPoint) const {
-            Indices IndicesAtKpoint;
-            for (auto index : indices) {
-                if (index.getKpoint() == kPoint) {
-                    IndicesAtKpoint.indices.push_back(index);
-                }
-            }
-            if (IndicesAtKpoint.size() == 0) {
-                throw std::runtime_error("No indices found for k-point.");
-            }
-            return IndicesAtKpoint;
-        }
+        Indices atKpoint(const Eigen::Index& kPoint) const;
 
         /**
          * @brief Filters the indices at a specific band.
          * @param band The band index to filter by.
          * @return A new Indices object containing only the indices at the specified band.
          */
-        Indices atBand(const Eigen::Index& band) const {
-            Indices IndicesAtBand;
-            for (auto index : indices) {
-                if (index.getBand() == band) {
-                    IndicesAtBand.indices.push_back(index);
-                }
-            }
-            if (IndicesAtBand.size() == 0) {
-                throw std::runtime_error("No indices found for band.");
-            }
-            return IndicesAtBand;
-        }
+        Indices atBand(const Eigen::Index& band) const;
 
         /**
          * @brief Filters the index of the electron with specified band and k-point.
@@ -211,42 +152,14 @@ class Indices {
          * @param band The band index to filter by.
          * @return The Index object containing of the specified electron.
          */
-        Index atKpointBand(const Eigen::Index& kpoint, const Eigen::Index& band) const {
-            Index index;
-            bool found = false;
-            for (auto jndex : indices) {
-                if (jndex.getKpoint() == kpoint && jndex.getBand() == band) {
-                    index = jndex;
-                    found = true;
-                    break;
-                }
-            }
-            if (!found) {
-                throw std::runtime_error("Index not found at kpoint and band.");
-            }
-            return index;
-        }
+        Index atKpointBand(const Eigen::Index& kpoint, const Eigen::Index& band) const;
 
         /**
          * @brief Filters the indices at a specific electron index.
          * @param electron The electron index to filter by.
          * @return The Index object containing of the specified electron.
          */
-        Index atElectron(const Eigen::Index& electron) const {
-            Index index;
-            bool found = false;
-            for (auto jndex : indices) {
-                if (jndex.getElectron() == electron) {
-                    index = jndex;
-                    found = true;
-                    break;
-                }
-            }
-            if (!found) {
-                throw std::runtime_error("Index not found at electron.");
-            }
-            return index;
-        }
+        Index atElectron(const Eigen::Index& electron) const;
 
         /**
          * @brief Filters the occupied and unoccupied indices.
@@ -256,42 +169,35 @@ class Indices {
          */
         std::tuple<Indices, Indices> separateByOccupation(
             const Eigen::Vector<std::double_t, Eigen::Dynamic>& occupations,
-            const std::double_t& zeroTolerance = 1e-6) const {
-            Indices occupiedIndices;
-            Indices unoccupiedIndices;
-            for (Eigen::Index i = 0; i < size(); ++i) {
-                if (indices[i].isOccupied(occupations, zeroTolerance)) {
-                    occupiedIndices.indices.push_back(indices[i]);
-                } else {
-                    unoccupiedIndices.indices.push_back(indices[i]);
-                }
-            }
-            if (occupiedIndices.size() == 0) {
-                throw std::runtime_error("No occupied indices found.");
-            }
-            if (unoccupiedIndices.size() == 0) {
-                throw std::runtime_error("No unoccupied indices found.");
-            }
-            return std::make_tuple(occupiedIndices, unoccupiedIndices);
-        }
+            const std::double_t& zeroTolerance = 1e-6) const;
 
-
+    /**
+     * @brief An iterator for traversing the indices.
+     */
     class Iterator {
         private:
             const Indices& indices;
             Eigen::Index index;
 
         public:
+            // @brief Constructs an iterator for the Indices object.
             Iterator(const Indices& indices, Eigen::Index index) : indices{indices}, index{index} {}
-            bool operator!=(const Iterator& other) const {return index != other.index;}
-            void operator++() {++index;}
-            Index operator*() const {return indices[index];}
+
+            // @brief Checks if two iterators are not equal.
+            bool operator!=(const Iterator& other) const;
+
+            // @brief Advances the iterator to the next element.
+            void operator++();
+
+            // @brief Dereferences the iterator to access the current element.
+            Index operator*() const;
     };
 
-    Iterator begin() const {return Iterator(*this, 0);}
-    Iterator end() const {return Iterator(*this, size());}
+    // @brief Gets the begin iterator.
+    Iterator begin() const;
 
-
+    // @brief Gets the end iterator.
+    Iterator end() const;
 
 };
 

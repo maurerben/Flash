@@ -62,6 +62,10 @@ TEST_CASE("Test flash::physics::electrons::Indices class") {
         REQUIRE(indices[5] == Index(5, 1, 2));
     }
 
+    SECTION("Test size") {
+        REQUIRE(indices.size() == 6);
+    }
+
     SECTION("Test getElectrons") {
         Eigen::Vector<Eigen::Index, Eigen::Dynamic> electrons = indices.getElectrons();
         REQUIRE(electrons[0] == 0);
@@ -144,6 +148,21 @@ TEST_CASE("Test flash::physics::electrons::Indices class") {
       occupations << 1.0, 1.0, 1.0,
                      1.0, 1.0, 1.0;
       REQUIRE_THROWS(indices.separateByOccupation(occupations, 0.001));
+    }
+
+    SECTION("Test Iterator") {
+        int idx = 0;
+        for (auto it = indices.begin(); it != indices.end(); ++it) {
+            REQUIRE(*it == indices[idx]);
+            ++idx;
+        }
+
+        idx = 0;
+        for (auto index : indices) {
+            REQUIRE(index == indices[idx]);
+            ++idx;
+        }
+
     }
 
 }

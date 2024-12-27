@@ -32,8 +32,6 @@ bool Index::isUnoccupied(const Eigen::Vector<std::double_t, Eigen::Dynamic>& occ
     return occupations[electron] <= zeroTolerance;
 }
 
-// Default constructor for Indices
-Indices::Indices() = default;
 
 // Constructor with parameters
 Indices::Indices(const Eigen::Index& NumberOfKpoints, const Eigen::Index& NumberOfBands) {
@@ -179,9 +177,6 @@ Indices::Iterator Indices::begin() const {
 Indices::Iterator Indices::end() const {
     return Iterator(*this, size());
 }
-
-// Iterator constructor
-Indices::Iterator::Iterator(const Indices& indices, Eigen::Index index) : indices{indices}, index{index} {}
 
 // Iterator inequality operator
 bool Indices::Iterator::operator!=(const Iterator& other) const {

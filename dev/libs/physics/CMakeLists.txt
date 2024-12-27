@@ -1,7 +1,7 @@
 add_library(physics 
         src/ElectronicStates.cpp
         src/Transitions.cpp
-        #src/Index.cpp
+        src/Index.cpp
 )
 
 target_link_libraries(physics
