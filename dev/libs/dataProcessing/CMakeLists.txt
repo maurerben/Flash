@@ -1,17 +1,16 @@
-add_library(physics 
-        src/Data.cpp
-        src/Index.cpp
+add_library(dataProcessing
+        src/utils.cpp
+        src/access.cpp
 )
 
-target_link_libraries(physics
+target_link_libraries(dataProcessing
         PUBLIC
             utils
-            dataProcessing
             HDF5::HDF5
             Eigen3::Eigen
 )
 
-target_include_directories(physics
+target_include_directories(dataProcessing
         PUBLIC
             include
         PRIVATE

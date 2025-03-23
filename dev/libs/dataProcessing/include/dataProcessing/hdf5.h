@@ -1,5 +1,5 @@
-#ifndef FLASH_DATA_PROCESSING_HDF5_H
-#define FLASH_DATA_PROCESSING_HDF5_H
+#ifndef FLASH_dataProcessing_HDF5_H
+#define FLASH_dataProcessing_HDF5_H
 
 #include <H5Cpp.h>
 #include <Eigen/Dense>
@@ -12,7 +12,7 @@
 #include <array>
 
 namespace flash {
-namespace data_processing {
+namespace dataProcessing {
 namespace hdf5 {
 
 template <typename T>
@@ -33,7 +33,7 @@ void read_data(H5::DataSet& dataset, std::double_t data[N]);
 
 
 }  // namespace hdf5
-}  // namespace data_processing
+}  // namespace dataProcessing
 }  // namespace flash
 
-#endif  // FLASH_DATA_PROCESSING_HDF5_H
+#endif  // FLASH_dataProcessing_HDF5_H

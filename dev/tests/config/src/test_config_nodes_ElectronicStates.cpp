@@ -71,6 +71,8 @@ auto configFile = YAML::Load(
 
     )");
 
+
+
 TEST_CASE("Test flash::config::nodes::ElectronicStates class") {
     // ElectronicStates loads from config file node with full definition
     Eigen::Vector<std::size_t, 3> referenceSampling{1, 2, 3};

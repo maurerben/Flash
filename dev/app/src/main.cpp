@@ -2,8 +2,9 @@
 #include <config/nodes/Output.h>
 #include <config/nodes/Grid.h>
 #include <config/parameters/Vector.h>
-#include <data_processing/hdf5.h>
-#include <physics/electrons/ElectronicStates.h>
+#include <utils/IndexMap.h>
+#include <dataProcessing/hdf5.h>
+#include <physics/electrons/Data.h>
 #include <physics/electrons/Index.h>
 #include <yaml-cpp/yaml.h>
 
@@ -19,6 +20,7 @@ namespace po = boost::program_options;
 namespace fcp = flash::config::parameters;
 namespace fcn = flash::config::nodes;
 namespace fpe = flash::physics::electrons;
+namespace fu = flash::utils;
 
 /**
  * @brief Parse command line arguments.
@@ -88,21 +90,10 @@ int main(int argc, char* argv[])
     auto inputConfig = parseInputConfiguration(cmdArgs["input-config"]);
     auto outputConfig = parseOutputConfiguration(cmdArgs["output-config"]);
 
-    fpe::ElectronicStates electrons{"electrons.h5", inputConfig.electronicStates};
 
-    for (auto electron = electrons.begin(); electron != electrons.end(); ++electron) {
-        auto [energy, occupation, kPoint, band] = *electron;
-        std::cout << "Energy: " << energy << " Occupation: " << occupation << " kPoint: " << kPoint << " Band: " << band
-                  << std::endl;
-    }
-
-    auto electronsAtK1 = electrons.atKPoint(1);
-    auto occupiedElectrons = electrons.occupied();
-    for (auto electron : occupiedElectrons) {
-        auto [energy, occupation, kPoint, band] = electron;
-        std::cout << "Energy: " << energy << " Occupation: " << occupation << " kPoint: " << kPoint << " Band: " << band
-                  << std::endl;
-    }
+    std::cout<<"setup index map"<<std::endl;
+    auto map = fu::IndexMap();
+    map.TargetIndex(0);
 
     return 0;
 }

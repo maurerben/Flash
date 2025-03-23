@@ -1,8 +1,11 @@
 #pragma once
 
+#include <utils/types.h>
 #include <string>
 #include <Eigen/Dense>
 #include <tuple>
+
+using namespace flash::utils;
 
 namespace flash{
 namespace physics{
@@ -15,19 +18,22 @@ namespace electrons{
  */
 class Index {
     private:
-        Eigen::Index electron; // electron index
-        Eigen::Index kpoint; // kpoint index
-        Eigen::Index band; // band index
+        index_t electron; // electron index
+        index_t kpoint; // kpoint index
+        index_t band; // band index
 
     public:
         // @brief Default constructor
         Index() = default; // Default constructor
 
+
         // @brief Copy constructor
         Index(const Index& other) = default; // Copy constructor
 
+
         // @brief Copy assignment operator
         constexpr Index& operator=(const Index& other) = default; // Copy assignment operator
+
 
         /**
          * @brief Constructs an Index object.
@@ -36,23 +42,23 @@ class Index {
          * @param kpoint The k-point index.
          * @param band The band index.
          */
-        Index(const Eigen::Index& electron, const Eigen::Index& kpoint, const Eigen::Index& band)
+        Index(const index_t& electron, const index_t& kpoint, const index_t& band)
             : electron{electron}, kpoint{kpoint}, band{band} {}
 
 
         ~Index() = default; // Destructor
 
         // @brief Gets the electron index.
-        Eigen::Index getElectron() const {return electron;}
+        index_t getElectron() const {return electron;}
 
         // @brief Gets the k-point index.
-        Eigen::Index getKpoint() const {return kpoint;}
+        index_t getKpoint() const {return kpoint;}
 
         // @brief Gets the band index.
-        Eigen::Index getBand() const {return band;}
+        index_t getBand() const {return band;}
 
         // @brief Gets the index as a tuple.
-        std::tuple<Eigen::Index, Eigen::Index, Eigen::Index> asTuple() const;
+        std::tuple<index_t, index_t, index_t> asTuple() const;
 
         /**
          * @brief Compares two indices.
@@ -112,39 +118,39 @@ class Indices {
          * @param NumberOfKpoints The number of k-points.
          * @param NumberOfBands The number of bands.
          */
-        Indices(const Eigen::Index& NumberOfKpoints, const Eigen::Index& NumberOfBands);
+        Indices(const index_t& NumberOfKpoints, const index_t& NumberOfBands);
 
         // @brief Destructor
         ~Indices();
 
         // @brief Gets the number of indices.
-        Eigen::Index size() const;
+        index_t size() const;
 
         // @brief Gets the index at a specific position.
-        Index operator[](const Eigen::Index& index) const;
+        Index operator[](const index_t& index) const;
 
         // @brief Gets the electron indices as a Eigen::Vector.
-        Eigen::Vector<Eigen::Index, Eigen::Dynamic> getElectrons() const;
+        vector_t<index_t> getElectrons() const;
 
         // @brief Gets the k-point indices as a Eigen::Vector.
-        Eigen::Vector<Eigen::Index, Eigen::Dynamic> getKpoints() const;
+        vector_t<index_t> getKpoints() const;
 
         // @brief Gets the band indices as a Eigen::Vector.
-        Eigen::Vector<Eigen::Index, Eigen::Dynamic> getBands() const;
+        vector_t<index_t> getBands() const;
 
         /**
          * @brief Filters the indices at a specific k-point.
          * @param kPoint The k-point index to filter by.
          * @return A new Indices object containing only the indices at the specified k-point.
          */
-        Indices atKpoint(const Eigen::Index& kPoint) const;
+        Indices atKpoint(const index_t& kPoint) const;
 
         /**
          * @brief Filters the indices at a specific band.
          * @param band The band index to filter by.
          * @return A new Indices object containing only the indices at the specified band.
          */
-        Indices atBand(const Eigen::Index& band) const;
+        Indices atBand(const index_t& band) const;
 
         /**
          * @brief Filters the index of the electron with specified band and k-point.
@@ -152,14 +158,14 @@ class Indices {
          * @param band The band index to filter by.
          * @return The Index object containing of the specified electron.
          */
-        Index atKpointBand(const Eigen::Index& kpoint, const Eigen::Index& band) const;
+        Index atKpointBand(const index_t& kpoint, const index_t& band) const;
 
         /**
          * @brief Filters the indices at a specific electron index.
          * @param electron The electron index to filter by.
          * @return The Index object containing of the specified electron.
          */
-        Index atElectron(const Eigen::Index& electron) const;
+        Index atElectron(const index_t& electron) const;
 
         /**
          * @brief Filters the occupied and unoccupied indices.
@@ -177,11 +183,11 @@ class Indices {
     class Iterator {
         private:
             const Indices& indices;
-            Eigen::Index index;
+            index_t index;
 
         public:
             // @brief Constructs an iterator for the Indices object.
-            Iterator(const Indices& indices, Eigen::Index index) : indices{indices}, index{index} {}
+            Iterator(const Indices& indices, index_t index) : indices{indices}, index{index} {}
 
             // @brief Checks if two iterators are not equal.
             bool operator!=(const Iterator& other) const;

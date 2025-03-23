@@ -4,8 +4,9 @@ add_executable(app src/main.cpp)
 target_link_libraries(app 
     PRIVATE 
         constants
+        utils
         config
-        data_processing 
+        dataProcessing
         physics
         yaml-cpp
         HDF5::HDF5

@@ -1,2 +1,2 @@
 include(cmake/TestPhysicsElectronsIndex.cmake)
-include(cmake/TestPhysicsElectronsElectronicStates.cmake)
+include(cmake/TestPhysicsElectronsData.cmake)
