@@ -12,7 +12,7 @@
 #include <stdexcept>
 #include <string>
 
-namespace fcp = flash::config::parameters;
+namespace fcp = flashlight::config::parameters;
 
 auto configFile = YAML::Load(
     R"(
@@ -23,7 +23,7 @@ auto configFile = YAML::Load(
 
 fcp::options_t greetings{"hello", "hi"};
 
-TEST_CASE("Test flash::config::parameters::Option class for string type with exception checking") {
+TEST_CASE("Test flashlight::config::parameters::Option class for string type with exception checking") {
     // Option parameter initialized from config file
     fcp::Option hello("greeting", greetings);
     hello.load(configFile);

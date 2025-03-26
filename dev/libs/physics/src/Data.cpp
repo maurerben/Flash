@@ -1,8 +1,8 @@
 #include <physics/electrons/Data.h>
 
-using namespace flash::physics::electrons;
-using namespace flash::utils;
-using namespace flash::dataProcessing;
+using namespace flashlight::physics::electrons;
+using namespace flashlight::utils;
+using namespace flashlight::dataProcessing;
 
 
 

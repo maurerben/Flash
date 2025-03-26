@@ -3,7 +3,7 @@
 #include <Eigen/Dense>
 #include <cstdint>
 
-namespace flash {
+namespace flashlight {
 namespace constants {
 namespace tensor {
 
@@ -16,4 +16,4 @@ const auto identity3D = Eigen::Matrix<std::double_t, 3, 3>::Identity();
 
 }  // namespace tensor
 }  // namespace constants
-}  // namespace flash
+}  // namespace flashlight

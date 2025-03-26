@@ -1,5 +1,5 @@
-# Specify the Boost version you want to use
-find_package(Boost 1.70 REQUIRED COMPONENTS program_options)
+if(POLICY CMP0167)
+    cmake_policy(SET CMP0167 OLD)
+endif()
 
-# Include Boost headers
-include_directories(${Boost_INCLUDE_DIRS})
+find_package(Boost 1.70 REQUIRED COMPONENTS program_options)

@@ -5,9 +5,9 @@
 #include <cstdint>
 #include <iostream>
 
-using namespace flash::physics::electrons;
+using namespace flashlight::physics::electrons;
 
-TEST_CASE("Test flash::physics::electrons::Index class") {
+TEST_CASE("Test flashlight::physics::electrons::Index class") {
 
   Index index(5, 1, 2);
   Index jndex(5, 1, 2);
@@ -46,7 +46,7 @@ TEST_CASE("Test flash::physics::electrons::Index class") {
 
 }
 
-TEST_CASE("Test flash::physics::electrons::Indices class") {
+TEST_CASE("Test flashlight::physics::electrons::Indices class") {
 
     // Create indices for and 2 k-points 3 bands
     Indices indices(2, 3);

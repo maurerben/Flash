@@ -9,7 +9,7 @@
 #include <Eigen/Dense>
 #include <cstdint>
 
-namespace flash {
+namespace flashlight {
 namespace config {
 namespace nodes {
 
@@ -134,4 +134,4 @@ class Peak : Node {
 
 }  // namespace nodes
 }  // namespace config
-}  // namespace flash
+}  // namespace flashlight

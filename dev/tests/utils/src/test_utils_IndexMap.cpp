@@ -5,7 +5,7 @@
 #include <catch2/catch_all.hpp>
 
 
-using namespace flash::utils;
+using namespace flashlight::utils;
 
 TEST_CASE("IndexMap: Default Constructor", "[IndexMap]") {
 

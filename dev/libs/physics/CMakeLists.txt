@@ -3,6 +3,14 @@ add_library(physics
         src/Index.cpp
 )
 
+target_include_directories(physics
+        PUBLIC
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+        $<INSTALL_INTERFACE:include>
+        PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/src
+)
+
 target_link_libraries(physics
         PUBLIC
             utils
@@ -11,9 +19,7 @@ target_link_libraries(physics
             Eigen3::Eigen
 )
 
-target_include_directories(physics
-        PUBLIC
-            include
-        PRIVATE
-            src
-)
+install(TARGETS physics EXPORT flashlightTargets)
+
+install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/include/
+        DESTINATION include)

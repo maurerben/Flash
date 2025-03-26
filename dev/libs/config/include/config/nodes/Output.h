@@ -7,7 +7,7 @@
 #include <cstdint>
 #include <stdexcept>
 
-namespace flash {
+namespace flashlight {
 namespace config {
 namespace nodes {
 
@@ -46,4 +46,4 @@ class Output : Node {
 
 }  // namespace nodes
 }  // namespace config
-}  // namespace flash
+}  // namespace flashlight

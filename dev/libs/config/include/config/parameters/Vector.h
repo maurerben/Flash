@@ -7,7 +7,7 @@
 #include <stdexcept>
 #include <string>
 
-namespace flash {
+namespace flashlight {
 namespace config {
 namespace parameters {
 
@@ -95,4 +95,4 @@ using Interval = Vector<std::double_t, 2>;
 
 }  // namespace parameters
 }  // namespace config
-}  // namespace flash
+}  // namespace flashlight

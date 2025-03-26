@@ -12,7 +12,7 @@
 
 #include "Grid.h"
 
-namespace flash {
+namespace flashlight {
 namespace config {
 namespace nodes {
 
@@ -114,4 +114,4 @@ class ElectronicStates : Node {
 
 }  // namespace nodes
 }  // namespace config
-}  // namespace flash
+}  // namespace flashlight

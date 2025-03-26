@@ -11,7 +11,7 @@
 #include <vector>
 #include <array>
 
-namespace flash {
+namespace flashlight {
 namespace dataProcessing {
 namespace hdf5 {
 
@@ -34,6 +34,6 @@ void read_data(H5::DataSet& dataset, std::double_t data[N]);
 
 }  // namespace hdf5
 }  // namespace dataProcessing
-}  // namespace flash
+}  // namespace flashlight
 
 #endif  // FLASH_dataProcessing_HDF5_H

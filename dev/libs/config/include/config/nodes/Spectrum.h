@@ -12,7 +12,7 @@
 
 #include "Peak.h"
 
-namespace flash {
+namespace flashlight {
 namespace config {
 namespace nodes {
 
@@ -112,4 +112,4 @@ class Spectrum : Node {
 
 }  // namespace nodes
 }  // namespace config
-}  // namespace flash
+}  // namespace flashlight

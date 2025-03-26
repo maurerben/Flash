@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
 
-namespace flash {
+namespace flashlight {
 namespace config {
 namespace keys {
 
@@ -34,4 +34,4 @@ const inline std::string SPECTRUM{"spectrum"};
 
 }  // namespace keys
 }  // namespace config
-}  // namespace flash
+}  // namespace flashlight

@@ -8,7 +8,7 @@
 #include <cstdint>
 #include <complex>
 
-namespace flash{
+namespace flashlight{
 namespace utils {
 
 typedef int int_t;
@@ -24,4 +24,4 @@ using matrix_t = Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>;
 
 
 } // namespace utils
-} // namespace flash
+} // namespace flashlight

@@ -13,7 +13,7 @@
 #include <stdexcept>
 #include <string>
 
-namespace fcn = flash::config::nodes;
+namespace fcn = flashlight::config::nodes;
 
 auto configFile = YAML::Load(
     R"(
@@ -105,7 +105,7 @@ auto configFile = YAML::Load(
                 - [0, 1]
     )");
 
-TEST_CASE("Test flash::config::nodes::RegularGrid class") {
+TEST_CASE("Test flashlight::config::nodes::RegularGrid class") {
     // RegularGrid loads from config file node with full definition
     Eigen::Vector<std::size_t, 3> referenceSampling{1, 2, 3};
     Eigen::Vector<std::double_t, 3> referenceOffset{0.1, 0.3, 0.2};
@@ -118,7 +118,7 @@ TEST_CASE("Test flash::config::nodes::RegularGrid class") {
     REQUIRE(grid.parallelepiped == referenceParallelepiped);
 
     // RegularGrid loads from config file with missing offset definition
-    auto defaultOffset = flash::constants::tensor::origin;
+    auto defaultOffset = flashlight::constants::tensor::origin;
     fcn::RegularGrid missingOffset("missingOffset");
     missingOffset.load(configFile["valid"]);
     REQUIRE(missingOffset.sampling == referenceSampling);
@@ -126,7 +126,7 @@ TEST_CASE("Test flash::config::nodes::RegularGrid class") {
     REQUIRE(missingOffset.parallelepiped == referenceParallelepiped);
 
     // RegularGrid loads from config file with missing parallelepiped definition
-    auto defaultParallelepiped = flash::constants::tensor::identity3D;
+    auto defaultParallelepiped = flashlight::constants::tensor::identity3D;
     fcn::RegularGrid missingParallelepiped("missingParallelepiped");
     missingParallelepiped.load(configFile["valid"]);
     REQUIRE(missingParallelepiped.sampling == referenceSampling);

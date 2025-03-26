@@ -1,7 +1,7 @@
 #include <dataProcessing/hdf5/access.h>
 
 
-using namespace flash::dataProcessing::hdf5;
+using namespace flashlight::dataProcessing::hdf5;
 
 
 H5::PredType getPredType(const std::type_info& ti) {
@@ -37,7 +37,6 @@ H5::Group creatGroup(H5::H5Object& h5obj, const std::string& groupName, bool ove
 
         // Now create the group
         H5::Group group = h5obj.createGroup(groupName);
-        std::cout << "Created group: " << groupName << "\n";
 
         return group;
     }
@@ -77,7 +76,7 @@ void electrons::write(
     const vector_t<real_t>& occupations,
     bool overwrite) {
 
-    using namespace flash::dataProcessing::hdf5::names::electrons;
+    using namespace flashlight::dataProcessing::hdf5::names::electrons;
 
     try {
         H5::Group group = creatGroup(h5obj, groupName, overwrite);
@@ -143,7 +142,7 @@ void electrons::read(
     vector_t<real_t>& energies,
     vector_t<real_t>& occupations) {
 
-    using namespace flash::dataProcessing::hdf5::names::electrons;
+    using namespace flashlight::dataProcessing::hdf5::names::electrons;
 
     try {
         H5::Group group = h5obj.openGroup(groupName);

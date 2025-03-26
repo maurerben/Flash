@@ -4,7 +4,7 @@
 
 #include <string>
 
-namespace flash {
+namespace flashlight {
 namespace config {
 
 const auto DEFAULT_NODE = YAML::Load("default: 0");
@@ -33,4 +33,4 @@ class Node {
 };
 
 }  // namespace config
-}  // namespace flash
+}  // namespace flashlight

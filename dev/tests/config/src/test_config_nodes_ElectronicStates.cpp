@@ -13,7 +13,7 @@
 #include <stdexcept>
 #include <string>
 
-namespace fcn = flash::config::nodes;
+namespace fcn = flashlight::config::nodes;
 
 auto configFile = YAML::Load(
     R"(
@@ -73,11 +73,11 @@ auto configFile = YAML::Load(
 
 
 
-TEST_CASE("Test flash::config::nodes::ElectronicStates class") {
+TEST_CASE("Test flashlight::config::nodes::ElectronicStates class") {
     // ElectronicStates loads from config file node with full definition
     Eigen::Vector<std::size_t, 3> referenceSampling{1, 2, 3};
-    auto referenceOffset = flash::constants::tensor::origin;
-    auto referenceParallelepiped = flash::constants::tensor::identity3D;
+    auto referenceOffset = flashlight::constants::tensor::origin;
+    auto referenceParallelepiped = flashlight::constants::tensor::identity3D;
     fcn::ElectronicStates electronicStates("electronicStates");
     electronicStates.load(configFile["valid"]);
     REQUIRE(electronicStates.kGrid.sampling == referenceSampling);

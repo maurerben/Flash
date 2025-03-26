@@ -11,7 +11,7 @@
 #include <type_traits>
 #include <unordered_set>
 
-namespace flash {
+namespace flashlight {
 namespace config {
 namespace parameters {
 
@@ -88,4 +88,4 @@ class Option : public Parameter<std::string> {
 
 }  // namespace parameters
 }  // namespace config
-}  // namespace flash
+}  // namespace flashlight

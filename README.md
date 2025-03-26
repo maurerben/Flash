@@ -1,4 +1,4 @@
-This is flash, a super fast BSE solver.
+This is flashlight, a super fast BSE solver.
 
 # Install:
 ## Use `make`:

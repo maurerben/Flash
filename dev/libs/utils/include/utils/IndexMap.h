@@ -10,7 +10,7 @@
 #include <iostream>
 
 
-namespace flash {
+namespace flashlight {
 namespace utils {
 
 /**

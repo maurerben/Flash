@@ -8,7 +8,7 @@
 
 
 // Electron data names as strings
-namespace flash{
+namespace flashlight{
 namespace dataProcessing{
 namespace hdf5{
 namespace names{

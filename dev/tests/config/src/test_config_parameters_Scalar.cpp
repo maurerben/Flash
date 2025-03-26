@@ -11,7 +11,7 @@
 #include <stdexcept>
 #include <string>
 
-namespace fcp = flash::config::parameters;
+namespace fcp = flashlight::config::parameters;
 
 auto configFile = YAML::Load(
     R"(
@@ -28,7 +28,7 @@ auto configFile = YAML::Load(
     list: [1, 2, 3]
     )");
 
-TEST_CASE("Test flash::config::parameters::Scalar class initialization for integers") {
+TEST_CASE("Test flashlight::config::parameters::Scalar class initialization for integers") {
     // Load integer parameter from config file with matching key
     fcp::Scalar<int> three("three");
     three.load(configFile);
@@ -77,7 +77,7 @@ TEST_CASE("Test flash::config::parameters::Scalar class initialization for integ
     REQUIRE_THROWS_AS(isList.load(configFile), std::runtime_error);
 }
 
-TEST_CASE("Test flash::config::parameters::Scalar class for float type") {
+TEST_CASE("Test flashlight::config::parameters::Scalar class for float type") {
     // Float parameter initialized from config file
     fcp::Scalar<float> pi("pi_20");
     pi.load(configFile);
@@ -122,7 +122,7 @@ TEST_CASE("Test flash::config::parameters::Scalar class for float type") {
     REQUIRE_THROWS_AS(isList.load(configFile), std::runtime_error);
 }
 
-TEST_CASE("Test flash::config::parameters::Scalar class for double type") {
+TEST_CASE("Test flashlight::config::parameters::Scalar class for double type") {
     // Double parameter initialized from config file
     fcp::Scalar<double> pi("pi_20");
     pi.load(configFile);

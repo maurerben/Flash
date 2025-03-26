@@ -13,7 +13,7 @@
 #include <stdexcept>
 #include <string>
 
-namespace fcn = flash::config::nodes;
+namespace fcn = flashlight::config::nodes;
 
 auto configFile = YAML::Load(
     R"(
@@ -54,7 +54,7 @@ auto configFile = YAML::Load(
             n_sampling: 0
     )");
 
-TEST_CASE("Test flash::config::nodes::Spectrum class") {
+TEST_CASE("Test flashlight::config::nodes::Spectrum class") {
     // Spectrum loads from config file node with full definition
     Eigen::Vector<std::double_t, 2> referenceEnergyInterval{1.0, 2.0};
     std::size_t referenceNSamplingPoints{1500};

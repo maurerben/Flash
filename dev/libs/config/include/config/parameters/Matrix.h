@@ -8,7 +8,7 @@
 
 #include "Vector.h"
 
-namespace flash {
+namespace flashlight {
 namespace config {
 namespace parameters {
 
@@ -102,4 +102,4 @@ using CoordinateTrafo = Matrix<std::double_t, 3, 3>;
 
 }  // namespace parameters
 }  // namespace config
-}  // namespace flash
+}  // namespace flashlight

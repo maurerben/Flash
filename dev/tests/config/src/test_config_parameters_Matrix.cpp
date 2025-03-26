@@ -11,7 +11,7 @@
 #include <stdexcept>
 #include <string>
 
-namespace fcp = flash::config::parameters;
+namespace fcp = flashlight::config::parameters;
 
 auto configFile = YAML::Load(
     R"(
@@ -31,7 +31,7 @@ auto configFile = YAML::Load(
         - [7, 8, 9]
     )");
 
-TEST_CASE("Test flash::config::parameters::Matrix class for int type") {
+TEST_CASE("Test flashlight::config::parameters::Matrix class for int type") {
     // Matrix parameter loads from config file
     Eigen::Matrix<int, 3, 3> referenceMatrix;
     referenceMatrix << 1, 2, 3, 4, 5, 6, 7, 8, 9;

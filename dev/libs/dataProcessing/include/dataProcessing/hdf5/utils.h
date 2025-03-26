@@ -12,7 +12,7 @@
 #include <cstdint>
 #include <vector>
 
-namespace flash{
+namespace flashlight{
 namespace dataProcessing{
 namespace hdf5{
 namespace utils{

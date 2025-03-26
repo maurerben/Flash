@@ -17,10 +17,10 @@
 #include <array>
 
 namespace po = boost::program_options;
-namespace fcp = flash::config::parameters;
-namespace fcn = flash::config::nodes;
-namespace fpe = flash::physics::electrons;
-namespace fu = flash::utils;
+namespace fcp = flashlight::config::parameters;
+namespace fcn = flashlight::config::nodes;
+namespace fpe = flashlight::physics::electrons;
+namespace fu = flashlight::utils;
 
 /**
  * @brief Parse command line arguments.

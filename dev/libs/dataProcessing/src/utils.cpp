@@ -4,7 +4,7 @@
 
 #include <dataProcessing/hdf5/utils.h>
 
-using namespace flash::dataProcessing::hdf5::utils;
+using namespace flashlight::dataProcessing::hdf5::utils;
 
 H5::PredType getPredType(const std::type_info& ti) {
     static const std::unordered_map<std::type_index, H5::PredType> type_map = {

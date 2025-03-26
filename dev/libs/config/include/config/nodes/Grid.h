@@ -10,7 +10,7 @@
 #include <cstdint>
 #include <stdexcept>
 
-namespace flash {
+namespace flashlight {
 namespace config {
 namespace nodes {
 
@@ -122,4 +122,4 @@ class RegularGrid : Node {
 
 }  // namespace nodes
 }  // namespace config
-}  // namespace flash
+}  // namespace flashlight

@@ -5,9 +5,9 @@
 #include <Eigen/Dense>
 #include <tuple>
 
-using namespace flash::utils;
+using namespace flashlight::utils;
 
-namespace flash{
+namespace flashlight{
 namespace physics{
 namespace electrons{
 
@@ -209,4 +209,4 @@ class Indices {
 
 } // electrons
 } // physics
-} // flash
+} // flashlight

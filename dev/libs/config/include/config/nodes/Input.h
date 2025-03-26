@@ -4,7 +4,7 @@
 #include <config/Node.h>
 #include <config/nodes/ElectronicStates.h>
 
-namespace flash {
+namespace flashlight {
 namespace config {
 namespace nodes {
 
@@ -44,4 +44,4 @@ class Input : Node {
 
 }  // namespace nodes
 }  // namespace config
-}  // namespace flash
+}  // namespace flashlight

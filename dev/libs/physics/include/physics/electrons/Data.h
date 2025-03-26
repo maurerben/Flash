@@ -15,7 +15,7 @@
 #include <H5Cpp.h>
 #include "Index.h"
 
-namespace flash {
+namespace flashlight {
 namespace physics {
 namespace electrons {
 
@@ -143,4 +143,4 @@ class Data {
 
 }  // namespace electrons
 }  // namespace physics
-}  // namespace flash
+}  // namespace flashlight

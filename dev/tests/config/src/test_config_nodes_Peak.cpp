@@ -13,7 +13,7 @@
 #include <stdexcept>
 #include <string>
 
-namespace fcn = flash::config::nodes;
+namespace fcn = flashlight::config::nodes;
 
 auto configFile = YAML::Load(
     R"(
@@ -38,7 +38,7 @@ auto configFile = YAML::Load(
             form: sin
     )");
 
-TEST_CASE("Test flash::config::nodes::Peak class") {
+TEST_CASE("Test flashlight::config::nodes::Peak class") {
     // Peak loads from config file node with full definition
     std::double_t referenceWidth{0.002};
     std::string referenceForm{"gauss"};

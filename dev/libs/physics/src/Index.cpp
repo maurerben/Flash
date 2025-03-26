@@ -1,9 +1,9 @@
 #include <physics/electrons/Index.h>
 #include <stdexcept>
 
-using namespace flash::utils;
+using namespace flashlight::utils;
 
-namespace flash {
+namespace flashlight {
 namespace physics {
 namespace electrons {
 
@@ -222,4 +222,4 @@ Index Indices::Iterator::operator*() const {
 
 } // namespace electrons
 } // namespace physics
-} // namespace flash
+} // namespace flashlight

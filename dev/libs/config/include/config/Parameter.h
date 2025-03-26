@@ -7,7 +7,7 @@
 #include <stdexcept>
 #include <string>
 
-namespace flash {
+namespace flashlight {
 namespace config {
 
 /// @class Parameter
@@ -56,4 +56,4 @@ class Parameter {
 };
 
 }  // namespace config
-}  // namespace flash
+}  // namespace flashlight

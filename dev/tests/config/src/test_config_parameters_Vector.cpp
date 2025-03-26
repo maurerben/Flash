@@ -12,7 +12,7 @@
 #include <stdexcept>
 #include <string>
 
-namespace fcp = flash::config::parameters;
+namespace fcp = flashlight::config::parameters;
 
 auto configFile = YAML::Load(
     R"(
@@ -28,7 +28,7 @@ auto configFile = YAML::Load(
         - [3, 4]
     )");
 
-TEST_CASE("Test flash::config::parameters::Vector class for integer type") {
+TEST_CASE("Test flashlight::config::parameters::Vector class for integer type") {
     // Vector parameter is loads from config file
     Eigen::Vector<int, 3> referenceVector{1, 2, 3};
     fcp::Vector<int, 3> vectorParam("vector");

@@ -9,7 +9,7 @@
 #include <string>
 #include <type_traits>
 
-namespace flash {
+namespace flashlight {
 namespace config {
 namespace parameters {
 
@@ -78,4 +78,4 @@ using Double = Scalar<std::double_t>;
 
 }  // namespace parameters
 }  // namespace config
-}  // namespace flash
+}  // namespace flashlight

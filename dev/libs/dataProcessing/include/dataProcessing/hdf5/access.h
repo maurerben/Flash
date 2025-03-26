@@ -34,9 +34,9 @@
 #include <cstdint>
 #include <vector>
 
-using namespace flash::utils;
+using namespace flashlight::utils;
 
-namespace flash {
+namespace flashlight {
 namespace dataProcessing {
 namespace hdf5 {
 

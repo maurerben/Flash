@@ -3,7 +3,7 @@
 //
 #include <utils/IndexMap.h>
 
-using namespace flash::utils;
+using namespace flashlight::utils;
 
 
 /** @brief Validate Members of IndexMap. */

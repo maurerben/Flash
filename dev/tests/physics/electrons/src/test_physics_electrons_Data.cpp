@@ -7,9 +7,9 @@
 #include <cstdint>
 #include <dataProcessing/hdf5/access.h>
 
-using namespace flash::utils;
-using namespace flash::dataProcessing;
-using namespace flash::physics::electrons;
+using namespace flashlight::utils;
+using namespace flashlight::dataProcessing;
+using namespace flashlight::physics::electrons;
 
 
 TEST_CASE("Data Default Constructor", "[Data]") {
