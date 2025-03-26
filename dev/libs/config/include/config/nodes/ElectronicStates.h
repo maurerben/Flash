@@ -4,6 +4,7 @@
 #include <config/Node.h>
 #include <config/parameters/Scalar.h>
 #include <constants/tensor.h>
+#include <utils/types.h>
 
 #include <Eigen/Dense>
 #include <cmath>
@@ -16,12 +17,15 @@ namespace flashlight {
 namespace config {
 namespace nodes {
 
+using utils::index_t;
 using parameters::Double;
 using parameters::Size;
 
 /// @brief Ground state configuration node
 class ElectronicStates : Node {
    public:
+
+
     /**
      * @brief See Node.
      */
@@ -37,6 +41,7 @@ class ElectronicStates : Node {
      */
     RegularGrid kGrid{keys::KGRID};
 
+
     /**
      * @brief Number of bands.
      * @details Give the total number of bands that are prepared in the input ground state data.
@@ -45,24 +50,8 @@ class ElectronicStates : Node {
      *          #### Default
      *              Must be defined
      */
-    Size nStates{keys::NSTATES};
+    Size nBands{keys::NBANDS};
 
-    /**
-     * @brief Occupied part of the bands
-     * @details The occupation factor is defined as the number of occupied
-     *          states devided by ElectronicStates#nStates. If the occupation is
-     *          constant on the **k**-points, the number of occupied bands can
-     *          obtained by `ElectronicStates#nStates * ElectronicStates#occupiedPart`.
-     *          If this is not true, then the number of occupied Orbitals, given by
-     *          `ElectronicStates#nStates * ElectronicStates#occupiedPart * ElectronicStates#kGrid#sampling.prod()`
-     *          must be an integral.
-     *          #### Rules
-     *              - Must be `> 0.0` and `< 1.0`
-     *              - The number of occupied orbitals must be an integral number
-     *          #### Default
-     *              Must be defined
-     */
-    Double occupiedPart{keys::OCCUPIED_PART};
 
     /**
      * @brief Load ElectronicStates instance from a config node.
@@ -72,8 +61,7 @@ class ElectronicStates : Node {
     void load(const YAML::Node& node) {
         try {
             kGrid.load(node[this->key]);
-            nStates.load(node[this->key]);
-            occupiedPart.load(node[this->key]);
+            nBands.load(node[this->key]);
         } catch (std::runtime_error e) {
             throw std::runtime_error(this->key + "." + e.what());
         } catch (...) {
@@ -83,29 +71,13 @@ class ElectronicStates : Node {
         validateRules();
     };
 
-    std::size_t size() const {return nStates * kGrid.sampling.prod();}
+    index_t size() const {return nBands * kGrid.sampling.prod();}
 
    private:
     void validateRules() {
-        // nStates must be > 1
-        if (nStates <= static_cast<std::size_t>(1)) {
-            throw std::runtime_error(key + "." + keys::NSTATES + " <= 1.");
-        }
-
-        // occupiedPart must be > 0.0
-        if (occupiedPart <= 0.0) {
-            throw std::runtime_error(key + "." + keys::OCCUPIED_PART + " <= 0.0.");
-        }
-        // occupiedPart must be < 0.0
-        if (occupiedPart >= 1.0) {
-            throw std::runtime_error(key + "." + keys::OCCUPIED_PART + " >= 1.0.");
-        }
-
-        // The number of occpied orbitals as indicated by the members must be an integral number
-        auto nOccupiedOrbitals = kGrid.sampling.Value().prod() * nStates * occupiedPart;
-        if (std::trunc(nOccupiedOrbitals) != nOccupiedOrbitals) {
-            throw std::runtime_error(key + " the number of orbitals as indicated by " + keys::KGRID + ", " +
-                                     keys::NSTATES + " and " + keys::OCCUPIED_PART + " is not an integral number.");
+        // nBands must be > 1
+        if (nBands <= static_cast<index_t>(1)) {
+            throw std::runtime_error(key + "." + keys::NBANDS + " <= 1.");
         }
 
         return;

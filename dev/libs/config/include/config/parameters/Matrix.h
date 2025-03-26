@@ -1,6 +1,7 @@
 #pragma once
 
 #include <config/Parameter.h>
+#include <utils/types.h>
 
 #include <Eigen/Dense>
 #include <stdexcept>
@@ -11,6 +12,9 @@
 namespace flashlight {
 namespace config {
 namespace parameters {
+
+
+using utils::real_t;
 
 /**
  * @brief Similar to Parameter but saves a matrix.
@@ -98,7 +102,7 @@ class Matrix : public Parameter<Eigen::Matrix<T, Rows, Cols>> {
 };
 
 /// @brief Parameter type for coordinate transforamtion
-using CoordinateTrafo = Matrix<std::double_t, 3, 3>;
+using CoordinateTrafo = Matrix<real_t, 3, 3>;
 
 }  // namespace parameters
 }  // namespace config

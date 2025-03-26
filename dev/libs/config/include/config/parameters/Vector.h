@@ -1,6 +1,7 @@
 #pragma once
 
 #include <config/Parameter.h>
+#include <utils/types.h>
 
 #include <Eigen/Dense>
 #include <ranges>
@@ -11,6 +12,10 @@ namespace flashlight {
 namespace config {
 namespace parameters {
 
+
+using utils::index_t;
+using utils::real_t;
+
 template <typename T>
 concept ArithmeticType = std::is_arithmetic<T>::value;
 
@@ -19,7 +24,7 @@ concept ArithmeticType = std::is_arithmetic<T>::value;
  * @tparam T Type of the values saved to the matrix that Parameter holds
  * @tparam N is the number of elements
  */
-template <ArithmeticType T, std::size_t N>
+template <ArithmeticType T, index_t N>
 class Vector : public Parameter<Eigen::Vector<T, N>> {
    public:
     /// @brief Initialze with Vector#key
@@ -74,7 +79,7 @@ class Vector : public Parameter<Eigen::Vector<T, N>> {
                                      std::to_string(vectorNode.size()) + ".");
         }
         Eigen::Vector<T, N> vector;
-        for (std::size_t idx = 0; idx < N; ++idx) {
+        for (index_t idx = 0; idx < N; ++idx) {
             try {
                 vector(idx) = vectorNode[idx].template as<T>();
             } catch (...) {
@@ -87,11 +92,11 @@ class Vector : public Parameter<Eigen::Vector<T, N>> {
 };
 
 /// @brief Parameter type for sampling
-using Sampling = Vector<std::size_t, 3>;
+using Sampling = Vector<index_t, 3>;
 /// @brief Parameter type for coordinate
-using Coordinate = Vector<std::double_t, 3>;
+using Coordinate = Vector<real_t, 3>;
 /// @brief Paramter type for interval
-using Interval = Vector<std::double_t, 2>;
+using Interval = Vector<real_t, 2>;
 
 }  // namespace parameters
 }  // namespace config

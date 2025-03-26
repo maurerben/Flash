@@ -7,6 +7,8 @@
 #include <config/parameters/Scalar.h>
 #include <config/parameters/Vector.h>
 
+#include <utils/types.h>
+
 #include <Eigen/Dense>
 #include <cstdint>
 
@@ -16,6 +18,7 @@ namespace flashlight {
 namespace config {
 namespace nodes {
 
+using utils::index_t;
 using parameters::Interval;
 using parameters::Size;
 
@@ -104,7 +107,7 @@ class Spectrum : Node {
         }
 
         // nSampling must be larger zero
-        if (nSampling <= static_cast<std::size_t>(0)) {
+        if (nSampling <= static_cast<index_t>(0)) {
             throw std::runtime_error(key + "." + keys::NSAMPLING + " <= 0");
         }
     }

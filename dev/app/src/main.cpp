@@ -6,8 +6,9 @@
 #include <dataProcessing/hdf5.h>
 #include <physics/electrons/Data.h>
 #include <physics/electrons/Index.h>
-#include <yaml-cpp/yaml.h>
 
+#include <yaml-cpp/yaml.h>
+#include <H5Cpp.h>
 #include <Eigen/Dense>
 #include <boost/program_options.hpp>
 #include <complex>
@@ -17,9 +18,8 @@
 #include <array>
 
 namespace po = boost::program_options;
-namespace fcp = flashlight::config::parameters;
-namespace fcn = flashlight::config::nodes;
-namespace fpe = flashlight::physics::electrons;
+namespace fc = flashlight::config;
+namespace fp = flashlight::physics;
 namespace fu = flashlight::utils;
 
 /**
@@ -61,10 +61,10 @@ std::map<std::string, std::string> parseCommandLine(int argc, char* argv[]) {
 /**
  * @brief Parse input configuration.
  */
-fcn::Input parseInputConfiguration(std::string configFile) {
+fc::nodes::Input parseInputConfiguration(std::string configFile) {
     auto config = YAML::LoadFile(configFile);
 
-    fcn::Input input("input");
+    fc::nodes::Input input("input");
     input.load(config);
 
     return input;
@@ -73,13 +73,40 @@ fcn::Input parseInputConfiguration(std::string configFile) {
 /**
  * @brief Parse output configuration.
  */
-fcn::Output parseOutputConfiguration(std::string configFile) {
+fc::nodes::Output parseOutputConfiguration(std::string configFile) {
     auto config = YAML::LoadFile(configFile);
 
-    fcn::Output output("output");
+    fc::nodes::Output output("output");
     output.load(config);
 
     return output;
+}
+
+fp::electrons::Data readElectrons(fc::nodes::Input inputConfig, std::string filename) {
+  auto data = fp::electrons::Data();
+  try{
+      auto file = H5::H5File(filename, H5F_ACC_RDONLY);
+      data = fp::electrons::Data(file);
+  } catch (const std::exception& e) {
+      std::cerr << "Error reading electrons from file " << filename << "\n";
+      std::cout << e.what() << "\n";
+  }
+
+
+  if (inputConfig.electronicStates.nBands != data.NumBands()) {
+      std::cerr << "Number of bands given in inputConfig is " + std::to_string(inputConfig.electronicStates.nBands) + ".\n";
+      std::cerr << "Number of bands obtained from " + filename + " is " + std::to_string(data.NumBands()) + ".\n";
+      throw std::exception();
+  }
+  if (inputConfig.electronicStates.kGrid.sampling.prod() != data.NumKpoints()) {
+      std::cerr << "Number of k-points given in inputConfig is " +
+                     std::to_string(inputConfig.electronicStates.kGrid.sampling.prod()) + ".\n";
+      std::cerr << "Number of k-points obtained from " + filename + " is " + std::to_string(data.NumKpoints()) + ".\n";
+      throw std::exception();
+  }
+
+  return data;
+
 }
 
 int main(int argc, char* argv[])
@@ -90,10 +117,10 @@ int main(int argc, char* argv[])
     auto inputConfig = parseInputConfiguration(cmdArgs["input-config"]);
     auto outputConfig = parseOutputConfiguration(cmdArgs["output-config"]);
 
+    auto electronData = readElectrons(inputConfig, "electrons.h5");
+    std::cout<<"electrons read"<<std::endl;
 
-    std::cout<<"setup index map"<<std::endl;
-    auto map = fu::IndexMap();
-    map.TargetIndex(0);
+
 
     return 0;
 }

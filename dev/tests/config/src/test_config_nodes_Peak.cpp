@@ -18,14 +18,14 @@ namespace fcn = flashlight::config::nodes;
 auto configFile = YAML::Load(
     R"(
     valid:
-        peak: 
+        peak:
             width: 0.002
             form: gauss
 
-        missingWidth: 
+        missingWidth:
             form: gauss
 
-        missingForm: 
+        missingForm:
             width: 0.002
 
     invalid:

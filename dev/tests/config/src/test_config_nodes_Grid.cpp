@@ -2,6 +2,7 @@
 #include <config/nodes/Grid.h>
 #include <constants/tensor.h>
 #include <yaml-cpp/yaml.h>
+#include <utils/types.h>
 
 #include <Eigen/Dense>
 #include <catch2/catch_all.hpp>
@@ -13,6 +14,7 @@
 #include <stdexcept>
 #include <string>
 
+using namespace flashlight::utils;
 namespace fcn = flashlight::config::nodes;
 
 auto configFile = YAML::Load(
@@ -21,85 +23,85 @@ auto configFile = YAML::Load(
         grid:
             sampling: [1, 2, 3]
             offset: [0.1, 0.3, 0.2]
-            parallelepiped: 
-                - [1, 0, 0]
-                - [0, 0, 1]
-                - [0, 1, 0]  
-        
-        missingOffset:
-            sampling: [1, 2, 3]
-            parallelepiped: 
+            parallelepiped:
                 - [1, 0, 0]
                 - [0, 0, 1]
                 - [0, 1, 0]
-        
+
+        missingOffset:
+            sampling: [1, 2, 3]
+            parallelepiped:
+                - [1, 0, 0]
+                - [0, 0, 1]
+                - [0, 1, 0]
+
         missingParallelepiped:
             sampling: [1, 2, 3]
             offset: [0.1, 0.3, 0.2]
-        
+
         onlySampling:
             sampling: [1, 2, 3]
-    
+
     invalid:
         missingSampling:
             offset: [0.1, 0.3, 0.2]
-            parallelepiped: 
+            parallelepiped:
                 - [1, 0, 0]
                 - [0, 0, 1]
-                - [0, 1, 0]  
-        
+                - [0, 1, 0]
+
         samplingSmallerOne:
             sampling: [1, 0, 1]
             offset: [0.1, 0.3, 0.2]
-            parallelepiped: 
+            parallelepiped:
                 - [1, 0, 0]
                 - [0, 0, 1]
-                - [0, 1, 0]  
-        
+                - [0, 1, 0]
+
         offsetSmallerZero:
             sampling: [1, 2, 3]
             offset: [-0.1, 0.3, 0.2]
-            parallelepiped: 
+            parallelepiped:
                 - [1, 0, 0]
                 - [0, 0, 1]
-                - [0, 1, 0]  
-        
+                - [0, 1, 0]
+
         offsetEqualOne:
             sampling: [1, 2, 3]
             offset: [0.1, 1.0, 0.2]
-            parallelepiped: 
+            parallelepiped:
                 - [1, 0, 0]
                 - [0, 0, 1]
-                - [0, 1, 0]  
-        
+                - [0, 1, 0]
+
         latticeLinearDependend:
             sampling: [1, 2, 3]
             offset: [0.1, 1.0, 0.2]
-            parallelepiped: 
+            parallelepiped:
                 - [1, 0, 0]
                 - [0, 1, 0]
-                - [0, 1, 0]  
-        
+                - [0, 1, 0]
+
         invalidSamplingForm:
             sampling: [1, 1, 1, 5]
             offset: [0.1, 0.3, 0.2]
-            parallelepiped: 
+            parallelepiped:
                 - [1, 0, 0]
                 - [0, 0, 1]
-                - [0, 1, 0]  
-        
+                - [0, 1, 0]
+
         invalidOffsetForm:
             sampling: [1, 0, 1]
             offset: [0.1, 0.2]
-            parallelepiped: 
+            parallelepiped:
                 - [1, 0, 0]
                 - [0, 0, 1]
-                - [0, 1, 0]  
-        
+                - [0, 1, 0]
+
         invalidParallelepipedForm:
             sampling: [1, 0, 1]
             offset: [0.1, 0.2, 0.3]
-            parallelepiped: 
+            parallelepiped:
                 - [1, 0, 0]
                 - [0, 0, 1]
                 - [0, 1]
@@ -107,9 +109,9 @@ auto configFile = YAML::Load(
 
 TEST_CASE("Test flashlight::config::nodes::RegularGrid class") {
     // RegularGrid loads from config file node with full definition
-    Eigen::Vector<std::size_t, 3> referenceSampling{1, 2, 3};
-    Eigen::Vector<std::double_t, 3> referenceOffset{0.1, 0.3, 0.2};
-    Eigen::Matrix<std::double_t, 3, 3> referenceParallelepiped;
+    Eigen::Vector<index_t, 3> referenceSampling{1, 2, 3};
+    Eigen::Vector<real_t, 3> referenceOffset{0.1, 0.3, 0.2};
+    Eigen::Matrix<real_t, 3, 3> referenceParallelepiped;
     referenceParallelepiped << 1, 0, 0, 0, 0, 1, 0, 1, 0;
     fcn::RegularGrid grid("grid");
     grid.load(configFile["valid"]);

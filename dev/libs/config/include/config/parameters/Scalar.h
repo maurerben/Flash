@@ -1,5 +1,7 @@
 #pragma once
 
+#include <utils/types.h>
+
 #include <config/Parameter.h>
 #include <yaml-cpp/yaml.h>
 
@@ -12,6 +14,9 @@
 namespace flashlight {
 namespace config {
 namespace parameters {
+
+using utils::index_t;
+using utils::real_t;
 
 template <typename T>
 concept ScalarType = std::is_arithmetic<T>::value || std::is_same<T, bool>::value;
@@ -72,9 +77,9 @@ void Scalar<T>::load(const YAML::Node& node) {
 }
 
 /// @brief Parameter for the count of something
-using Size = Scalar<std::size_t>;
+using Size = Scalar<index_t>;
 /// @brief Parameter for the factor of something
-using Double = Scalar<std::double_t>;
+using Double = Scalar<real_t>;
 
 }  // namespace parameters
 }  // namespace config

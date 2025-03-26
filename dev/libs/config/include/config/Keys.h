@@ -12,7 +12,7 @@ const inline std::string OFFSET{"offset"};
 /// @brief Indicate the span vectors of an parallelepiped
 const inline std::string PARALLELEPIPED{"parallelepiped"};
 /// @brief Indicate the number of states
-const inline std::string NSTATES{"n_states"};
+const inline std::string NBANDS{"n_bands"};
 /// @brief Indicate the sampling of the **k**-grid
 const inline std::string KGRID{"k_grid"};
 /// @brief Indicate the occupation factor

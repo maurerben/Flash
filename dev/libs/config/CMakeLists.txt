@@ -6,7 +6,8 @@ target_include_directories(constants INTERFACE
 )
 
 target_link_libraries(config 
-        INTERFACE 
+        INTERFACE
+            utils
             constants
             Eigen3::Eigen
             yaml-cpp

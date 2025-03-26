@@ -20,7 +20,7 @@ class Input : Node {
      *
      * @details Define the ground state of the input data. The ground state is defined by
      *         - the **k**-grid on which the ground state is prepared, see ElectronicStates#kGrid
-     *         - the number of bands, see ElectronicStates#nStates
+     *         - the number of bands, see ElectronicStates#nBands
      *         - the occupation factor, see ElectronicStates#occupiedPart
      */
     ElectronicStates electronicStates{keys::ELECTRONICSTATES};
