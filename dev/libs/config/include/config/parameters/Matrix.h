@@ -13,7 +13,6 @@ namespace flashlight {
 namespace config {
 namespace parameters {
 
-
 using utils::real_t;
 
 /**

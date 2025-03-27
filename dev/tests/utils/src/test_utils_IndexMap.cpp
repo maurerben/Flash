@@ -2,32 +2,29 @@
 
 #include <utils/IndexMap.h>
 #include <utils/types.h>
-#include <catch2/catch_all.hpp>
 
+#include <catch2/catch_all.hpp>
 
 using namespace flashlight::utils;
 
 TEST_CASE("IndexMap: Default Constructor", "[IndexMap]") {
-
     auto indexMap = IndexMap();
     REQUIRE(indexMap.size() == 0);
     REQUIRE(indexMap.TargetIndices().size() == 0);
     REQUIRE(indexMap.NumberOfTargets() == 0);
 }
 
-
 TEST_CASE("IndexMap: Parameterized Constructor", "[IndexMap]") {
-        vector_t<index_t> targetIndices(3);
-        targetIndices << 2, 4, 6;
+    vector_t<index_t> targetIndices(3);
+    targetIndices << 2, 4, 6;
 
-        index_t numTargets = 6;
-        IndexMap map(targetIndices, numTargets);
+    index_t numTargets = 6;
+    IndexMap map(targetIndices, numTargets);
 
-        REQUIRE(map.size() == 3);
-        REQUIRE(map.NumberOfTargets() == numTargets);
-        REQUIRE(map.TargetIndices().isApprox(targetIndices));
+    REQUIRE(map.size() == 3);
+    REQUIRE(map.NumberOfTargets() == numTargets);
+    REQUIRE(map.TargetIndices().isApprox(targetIndices));
 }
-
 
 TEST_CASE("IndexMap: Destructor", "[IndexMap]") {
     vector_t<index_t> targetIndices(3);
@@ -75,9 +72,6 @@ TEST_CASE("IndexMap: == and != Operators", "[IndexMap]") {
     REQUIRE(map1 != map4);
 }
 
-
-
-
 TEST_CASE("IndexMap: TargetIndex() Function", "[IndexMap]") {
     vector_t<index_t> targetIndices(4);
     targetIndices << 1, 3, 5, 7;
@@ -108,14 +102,13 @@ TEST_CASE("IndexMap: TargetIndices() with Subset", "[IndexMap]") {
     REQUIRE(subTargets(2) == 50);
 }
 
-
 H5::Group mockTestH5GroupForIndexMap(const vector_t<index_t>& targetIndices, const index_t& numberOfTargets) {
     // Set file access property list to use in-memory storage
     H5::FileAccPropList fapl;
     fapl.setCore(1024 * 1024, false);  // 1 MB memory allocation, no backing store
 
     // Create an in-memory HDF5 file
-    H5::H5File file("memory.h5", H5F_ACC_TRUNC, H5::FileCreatPropList::DEFAULT, fapl);//,
+    H5::H5File file("memory.h5", H5F_ACC_TRUNC, H5::FileCreatPropList::DEFAULT, fapl);  //,
     H5::Group group = file.createGroup("/group");
 
     // Number of targets (as an attribute)
@@ -130,7 +123,6 @@ H5::Group mockTestH5GroupForIndexMap(const vector_t<index_t>& targetIndices, con
 
     return group;
 };
-
 
 TEST_CASE("IndexMap: HDF5 Constructor", "[IndexMap]") {
     vector_t<index_t> targetIndices(3);

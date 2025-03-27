@@ -1,8 +1,8 @@
 #define CATCH_CONFIG_MAIN
 #include <config/nodes/Spectrum.h>
 #include <constants/tensor.h>
-#include <yaml-cpp/yaml.h>
 #include <utils/types.h>
+#include <yaml-cpp/yaml.h>
 
 #include <Eigen/Dense>
 #include <catch2/catch_all.hpp>

@@ -6,7 +6,6 @@
 #include <config/parameters/Option.h>
 #include <config/parameters/Scalar.h>
 #include <config/parameters/Vector.h>
-
 #include <utils/types.h>
 
 #include <Eigen/Dense>
@@ -18,9 +17,9 @@ namespace flashlight {
 namespace config {
 namespace nodes {
 
-using utils::index_t;
 using parameters::Interval;
 using parameters::Size;
+using utils::index_t;
 
 /**
  * @brief Spectrum configuration node

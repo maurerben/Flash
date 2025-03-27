@@ -12,7 +12,6 @@ namespace flashlight {
 namespace config {
 namespace parameters {
 
-
 using utils::index_t;
 using utils::real_t;
 
@@ -37,8 +36,8 @@ class Vector : public Parameter<Eigen::Vector<T, N>> {
     Vector(const std::string& key, const Eigen::Vector<T, N>& defaultValue)
         : Parameter<Eigen::Vector<T, N>>(key, defaultValue) {}
 
-    T prod() const {return this->value.prod();}
-    T sum() const {return this->value.sum();}
+    T prod() const { return this->value.prod(); }
+    T sum() const { return this->value.sum(); }
 
     /// @brief See Parameter#load
     /// @param[in] node

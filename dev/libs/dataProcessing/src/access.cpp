@@ -1,13 +1,12 @@
-#include <dataProcessing/hdf5/access.h>
+#include <dataProcessing/access.h>
 
-
-using namespace flashlight::dataProcessing::hdf5;
-
+namespace flashlight {
+namespace dataProcessing {
 
 H5::PredType getPredType(const std::type_info& ti) {
     static const std::unordered_map<std::type_index, H5::PredType> type_map = {
-        {typeid(int),    H5::PredType::NATIVE_INT},
-        {typeid(Eigen::Index),  H5::PredType::NATIVE_LONG},
+        {typeid(int), H5::PredType::NATIVE_INT},
+        {typeid(Eigen::Index), H5::PredType::NATIVE_LONG},
         {typeid(std::float_t), H5::PredType::NATIVE_FLOAT},
         {typeid(std::double_t), H5::PredType::NATIVE_DOUBLE}
         // etc.
@@ -19,9 +18,7 @@ H5::PredType getPredType(const std::type_info& ti) {
     } else {
         throw std::runtime_error("Unknown type");
     }
-
 }
-
 
 H5::Group creatGroup(H5::H5Object& h5obj, const std::string& groupName, bool overwrite) {
     try {
@@ -32,19 +29,16 @@ H5::Group creatGroup(H5::H5Object& h5obj, const std::string& groupName, bool ove
             } else {
                 throw std::runtime_error("Overwrite is disabled, cannot delete " + groupName + "\n");
             }
-            
         }
 
         // Now create the group
         H5::Group group = h5obj.createGroup(groupName);
 
         return group;
-    }
-    catch (const H5::Exception& e) {
+    } catch (const H5::Exception& e) {
         std::cerr << "HDF5 error: " << e.getDetailMsg() << std::endl;
         throw;
     }
-
 }
 
 /**
@@ -68,49 +62,38 @@ H5::Group creatGroup(H5::H5Object& h5obj, const std::string& groupName, bool ove
  * @param occupations  Vector of occupation numbers (written as a dataset).
  * @param overwrite    If true, overwrite the group if it already exists.
  */
-void electrons::write(
-    H5::H5Object& h5obj,
-    const index_t& numKpoints,
-    const index_t& numBands,
-    const vector_t<real_t>& energies,
-    const vector_t<real_t>& occupations,
-    bool overwrite) {
-
-    using namespace flashlight::dataProcessing::hdf5::names::electrons;
+void writeElectrons(H5::H5Object& h5obj, const index_t& numKpoints, const index_t& numBands,
+                    const vector_t<real_t>& energies, const vector_t<real_t>& occupations, bool overwrite) {
+    // Names for hdf5 objects
+    using namespace names::electrons;
 
     try {
         H5::Group group = creatGroup(h5obj, groupName, overwrite);
 
         // Number of k-points (as an attribute)
         H5::Attribute attrNumKpoints =
-            group.createAttribute(
-                numKpointsAtrrName, getPredType(typeid(index_t)), H5::DataSpace()
-            );
+            group.createAttribute(numKpointsAtrrName, getPredType(typeid(index_t)), H5::DataSpace());
         attrNumKpoints.write(getPredType(typeid(index_t)), &numKpoints);
 
         // Number of bands (as an attribute)
         H5::Attribute attrNumBands =
-            group.createAttribute(
-                numBandsAtrrName, getPredType(typeid(index_t)), H5::DataSpace()
-            );
+            group.createAttribute(numBandsAtrrName, getPredType(typeid(index_t)), H5::DataSpace());
         attrNumBands.write(getPredType(typeid(index_t)), &numBands);
 
         // create eneriges data set
         hsize_t dimsEnergies[1] = {static_cast<hsize_t>(energies.size())};
         H5::DataSpace energiesDataspace(1, dimsEnergies);
-        H5::DataSet energiesDataSet
-            = group.createDataSet(
-                energiesDsetName, getPredType(typeid(real_t)), energiesDataspace);
+        H5::DataSet energiesDataSet =
+            group.createDataSet(energiesDsetName, getPredType(typeid(real_t)), energiesDataspace);
         energiesDataSet.write(energies.data(), getPredType(typeid(real_t)));
 
         // create occupations data set
         hsize_t dimsOccupations[1] = {static_cast<hsize_t>(occupations.size())};
         H5::DataSpace occupationsDataspace(1, dimsOccupations);
-        H5::DataSet occupationsDataSet
-            = group.createDataSet(
-                occupationsDsetName, getPredType(typeid(real_t)), occupationsDataspace);
+        H5::DataSet occupationsDataSet =
+            group.createDataSet(occupationsDsetName, getPredType(typeid(real_t)), occupationsDataspace);
         occupationsDataSet.write(occupations.data(), getPredType(typeid(real_t)));
-    } catch (const std::exception &e) {
+    } catch (const std::exception& e) {
         std::cerr << "write::electronData: Caught exception: " << e.what() << std::endl;
     }
 }
@@ -135,14 +118,10 @@ void electrons::write(
  * @param energies      Output: energy values (read from a 1D dataset).
  * @param occupations   Output: occupation numbers (read from a 1D dataset).
  */
-void electrons::read(
-    const H5::H5Object& h5obj,
-    index_t& numKpoints,
-    index_t& numBands,
-    vector_t<real_t>& energies,
-    vector_t<real_t>& occupations) {
-
-    using namespace flashlight::dataProcessing::hdf5::names::electrons;
+void readElectrons(const H5::H5Object& h5obj, index_t& numKpoints, index_t& numBands, vector_t<real_t>& energies,
+                   vector_t<real_t>& occupations) {
+    // Names for hdf5 objects
+    using namespace names::electrons;
 
     try {
         H5::Group group = h5obj.openGroup(groupName);
@@ -172,11 +151,11 @@ void electrons::read(
 
         occupations.resize(occupationDims[0]);
         occupationDataset.read(occupations.data(), getPredType(typeid(real_t)));
-          
-    } catch (const std::exception &e) {
+
+    } catch (const std::exception& e) {
         std::cerr << "read::electronData: Caught exception: " << e.what() << std::endl;
     }
 }
 
-
-
+}  // namespace dataProcessing
+}  // namespace flashlight

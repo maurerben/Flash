@@ -1,8 +1,8 @@
 #define CATCH_CONFIG_MAIN
 #include <config/nodes/ElectronicStates.h>
 #include <constants/tensor.h>
-#include <yaml-cpp/yaml.h>
 #include <utils/types.h>
+#include <yaml-cpp/yaml.h>
 
 #include <Eigen/Dense>
 #include <catch2/catch_all.hpp>
@@ -43,8 +43,6 @@ auto configFile = YAML::Load(
                 sampling: [1, 2, 3]
             n_bands: 1
     )");
-
-
 
 TEST_CASE("Test flashlight::config::nodes::ElectronicStates class") {
     // ElectronicStates loads from config file node with full definition

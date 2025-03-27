@@ -1,8 +1,7 @@
 #pragma once
 
-#include <utils/types.h>
-
 #include <config/Parameter.h>
+#include <utils/types.h>
 #include <yaml-cpp/yaml.h>
 
 #include <iostream>

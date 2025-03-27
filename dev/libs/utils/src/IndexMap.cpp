@@ -5,7 +5,6 @@
 
 using namespace flashlight::utils;
 
-
 /** @brief Validate Members of IndexMap. */
 void validateMembers(const vector_t<index_t>& targetIndices, const index_t& numberOfTargets) {
     if (numberOfTargets <= 0) {
@@ -19,7 +18,6 @@ void validateMembers(const vector_t<index_t>& targetIndices, const index_t& numb
     }
 }
 
-
 /**
  * @brief Default constructor.
  *
@@ -27,9 +25,8 @@ void validateMembers(const vector_t<index_t>& targetIndices, const index_t& numb
  */
 IndexMap::IndexMap() = default;
 
-
 IndexMap::IndexMap(const vector_t<index_t>& targetIndices, const index_t& numberOfTargets)
-            : numberOfTargets(numberOfTargets), targetIndices(targetIndices) {
+    : numberOfTargets(numberOfTargets), targetIndices(targetIndices) {
     validateMembers(targetIndices, numberOfTargets);
 }
 
@@ -56,8 +53,7 @@ IndexMap::IndexMap(const H5::Group& group) {
         // Read dataset into Eigen vector
         targetIndices.resize(dataSize);
         dataset.read(targetIndices.data(), H5::PredType::NATIVE_LONG);
-    }
-    catch (const H5::Exception& e) {
+    } catch (const H5::Exception& e) {
         throw std::runtime_error("Error loading IndexMap from HDF5: " + std::string(e.getDetailMsg()));
     }
     validateMembers(targetIndices, numberOfTargets);
@@ -73,45 +69,35 @@ IndexMap::~IndexMap() {
     targetIndices.resize(0);
 }
 
-
 /**
-  * @brief Overload the == operator.
-  */
+ * @brief Overload the == operator.
+ */
 bool IndexMap::operator==(const IndexMap& other) const {
     if (this->size() != other.size()) {
         return false;
     } else {
         return numberOfTargets == other.numberOfTargets && targetIndices.isApprox(other.targetIndices);
     }
-
 }
-
 
 /**
-     * @brief Overload the != operator.
-     */
-bool IndexMap::operator!=(const IndexMap& other) const {
-    return !(*this == other);
-}
+ * @brief Overload the != operator.
+ */
+bool IndexMap::operator!=(const IndexMap& other) const { return !(*this == other); }
 
 /**
  * @brief Gets the number of mapped elements.
  *
  * @return The size of the target indices vector.
  */
-index_t IndexMap::size() const {
-    return targetIndices.size();
-}
-
+index_t IndexMap::size() const { return targetIndices.size(); }
 
 /*
  * @brief Gets the number of target elements.
  *
  * @return The total number of targets.
  */
-const index_t& IndexMap::NumberOfTargets() const {
-    return numberOfTargets;
-}
+const index_t& IndexMap::NumberOfTargets() const { return numberOfTargets; }
 
 /**
  * @brief Retrieves the target index for a given element.
@@ -119,18 +105,14 @@ const index_t& IndexMap::NumberOfTargets() const {
  * @param index The index to look up.
  * @return The corresponding target index.
  */
-const index_t IndexMap::TargetIndex(const index_t& index) const {
-    return targetIndices(index);
-}
+const index_t IndexMap::TargetIndex(const index_t& index) const { return targetIndices(index); }
 
 /**
  * @brief Gets the vector of target indices.
  *
  * @return A reference to the target indices vector.
  */
-const vector_t<index_t>& IndexMap::TargetIndices() const {
-    return targetIndices;
-}
+const vector_t<index_t>& IndexMap::TargetIndices() const { return targetIndices; }
 
 /**
  * @brief Retrieves a subset of target indices.

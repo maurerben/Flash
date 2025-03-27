@@ -17,15 +17,13 @@ namespace flashlight {
 namespace config {
 namespace nodes {
 
-using utils::index_t;
 using parameters::Double;
 using parameters::Size;
+using utils::index_t;
 
 /// @brief Ground state configuration node
 class ElectronicStates : Node {
    public:
-
-
     /**
      * @brief See Node.
      */
@@ -41,7 +39,6 @@ class ElectronicStates : Node {
      */
     RegularGrid kGrid{keys::KGRID};
 
-
     /**
      * @brief Number of bands.
      * @details Give the total number of bands that are prepared in the input ground state data.
@@ -51,7 +48,6 @@ class ElectronicStates : Node {
      *              Must be defined
      */
     Size nBands{keys::NBANDS};
-
 
     /**
      * @brief Load ElectronicStates instance from a config node.
@@ -71,7 +67,7 @@ class ElectronicStates : Node {
         validateRules();
     };
 
-    index_t size() const {return nBands * kGrid.sampling.prod();}
+    index_t size() const { return nBands * kGrid.sampling.prod(); }
 
    private:
     void validateRules() {

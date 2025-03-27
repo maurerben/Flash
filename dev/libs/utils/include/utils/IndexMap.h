@@ -4,11 +4,12 @@
 
 #pragma once
 
-#include "utils/types.h"
-#include <Eigen/Dense>
 #include <H5Cpp.h>
+
+#include <Eigen/Dense>
 #include <iostream>
 
+#include "utils/types.h"
 
 namespace flashlight {
 namespace utils {
@@ -19,26 +20,20 @@ namespace utils {
  * The IndexMap class maps elements of one array to elements of a target array.
  */
 class IndexMap {
-
-  private:
-
+   private:
     /** @brief Array of the target indices. */
     vector_t<index_t> targetIndices;
-
 
     /** @brief Number of targets that are mapped to. */
     index_t numberOfTargets = 0;
 
-
-  public:
-
+   public:
     /**
      * @brief Default constructor.
      *
      * Initializes an empty IndexMap with zero targets.
      */
     IndexMap();
-
 
     /**
      * @brief Constructs an IndexMap with given target indices and number of targets.
@@ -48,14 +43,12 @@ class IndexMap {
      */
     IndexMap(const vector_t<index_t>& targetIndices, const index_t& numberOfTargets);
 
-
     /**
      * @brief Constructs an IndexMap from an HDF5 group.
      *
      * @param group The HDF5 group containing the index map data.
      */
     IndexMap(const H5::Group& group);
-
 
     /**
      * @brief Destructor.
@@ -64,18 +57,15 @@ class IndexMap {
      */
     ~IndexMap();
 
-
     /**
      * @brief Overload the == operator.
      */
     bool operator==(const IndexMap& other) const;
 
-
     /**
      * @brief Overload the != operator.
      */
     bool operator!=(const IndexMap& other) const;
-
 
     /**
      * @brief Gets the number of mapped elements.
@@ -84,14 +74,12 @@ class IndexMap {
      */
     index_t size() const;
 
-
     /**
      * @brief Gets the number of target elements.
      *
      * @return The total number of targets.
      */
     const index_t& NumberOfTargets() const;
-
 
     /**
      * @brief Retrieves the target index for a given element.
@@ -101,14 +89,12 @@ class IndexMap {
      */
     const index_t TargetIndex(const index_t& index) const;
 
-
     /**
      * @brief Gets the vector of target indices.
      *
      * @return A reference to the target indices vector.
      */
     const vector_t<index_t>& TargetIndices() const;
-
 
     /**
      * @brief Retrieves a subset of target indices.
@@ -117,8 +103,7 @@ class IndexMap {
      * @return A vector containing the selected target indices.
      */
     const vector_t<index_t> TargetIndices(const vector_t<index_t>& indices) const;
-
 };
 
-}
-}
+}  // namespace utils
+}  // namespace flashlight
