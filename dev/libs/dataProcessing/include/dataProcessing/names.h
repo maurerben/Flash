@@ -12,11 +12,11 @@ namespace dataProcessing {
 namespace names {
 
 namespace electrons {
-constexpr std::string groupName("electrons");
-constexpr std::string numKpointsAtrrName("num_kpoints");
-constexpr std::string numBandsAtrrName("num_bands");
-constexpr std::string energiesDsetName("energies");
-constexpr std::string occupationsDsetName("occupations");
+    constexpr std::string groupName("electrons");
+    constexpr std::string numKpointsAtrrName("num_kpoints");
+    constexpr std::string numBandsAtrrName("num_bands");
+    constexpr std::string energiesDsetName("energies");
+    constexpr std::string occupationsDsetName("occupations");
 }  // namespace electrons
 
 }  // namespace names

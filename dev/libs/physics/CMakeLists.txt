@@ -1,7 +1,5 @@
 add_library(physics
-        src/ElectronIndex.cpp
-        src/ElectronData.cpp
-        src/TransitionIndex.cpp
+        src/Algorithms.cpp
 )
 
 target_include_directories(physics

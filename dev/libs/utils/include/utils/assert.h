@@ -21,6 +21,33 @@ inline std::string formatCallerName(const std::string& name) { return name.empty
 template <typename T>
 concept ScalarType = std::is_arithmetic<T>::value || std::is_same<T, bool>::value;
 
+
+/**
+ * @brief Fail.
+ *
+ * Throws std::runtime_error.
+ *
+ * @throws std::runtime_error if the condition is false.
+ */
+[[noreturn]] inline void fail(bool condition) {
+    throw std::runtime_error("Problem!");
+}
+
+/**
+ * @brief Fail, with a custom exception.
+ *
+ * Throws the provided exception.
+ *
+ * @tparam E Type of the exception to be thrown.
+ * @param ex The exception object to throw if the condition is false.
+ * @throws The provided exception if the condition is false.
+ */
+template <typename E>
+[[noreturn]] inline void fail(E&& ex) {
+    throw std::forward<E>(ex);
+}
+
+
 /**
  * @brief Asserts that a given condition is true.
  *
@@ -50,6 +77,39 @@ inline void assertTrue(bool condition) {
 template <typename E>
 inline void assertTrue(bool condition, E&& ex) {
     if (!condition) {
+        throw std::forward<E>(ex);
+    }
+}
+
+/**
+ * @brief Asserts that a given condition is false.
+ *
+ * Throws a std::runtime_error if the condition is true.
+ * This function is useful for enforcing runtime constraints with a default error message.
+ *
+ * @param condition The boolean condition to check.
+ * @throws std::runtime_error if the condition is false.
+ */
+inline void assertFalse(bool condition) {
+    if (condition) {
+        throw std::runtime_error("Problem!");
+    }
+}
+
+/**
+ * @brief Asserts that a given condition is false, with a custom exception.
+ *
+ * Throws a std::runtime_error if the condition is true.
+ * This is useful when you want to throw specific exception types or messages.
+ *
+ * @tparam E Type of the exception to be thrown.
+ * @param condition The boolean condition to check.
+ * @param ex The exception object to throw if the condition is false.
+ * @throws The provided exception if the condition is false.
+ */
+template <typename E>
+inline void assertFalse(bool condition, E&& ex) {
+    if (condition) {
         throw std::forward<E>(ex);
     }
 }
@@ -120,28 +180,13 @@ inline void assertInRange(const T& val, const std::pair<T, T>& range, std::strin
 // === Debug assertion macros ===
 #ifdef NDEBUG
 #define DEBUG_ONLY(x)  // for testing
-#define ASSERT_TRUE(cond) ((void)0)
-#define ASSERT_TRUE_MSG(cond, msg) ((void)0)
-#define ASSERT_LARGER_EQ(val, other) ((void)0)
-#define ASSERT_SMALLER(val, other) ((void)0)
-#define ASSERT_IN_RANGE(val, range) ((void)0)
+#define ASSERT_TRUE_DEBUG(cond) ((void)0)
 #else
 #define DEBUG_ONLY(x) x
 
-#define ASSERT_TRUE(cond)                                                                                          \
+#define ASSERT_TRUE_DEBUG(cond)                                                                                          \
     assertTrue((cond), std::runtime_error(std::string("Assertion failed: '") + #cond + "' in " + __func__ + " [" + \
                                           __FILE__ + ":" + std::to_string(__LINE__) + "]"))
-
-#define ASSERT_TRUE_MSG(cond, ex) assertTrue((cond), (ex))
-
-#define ASSERT_LARGER_EQ(val, other) \
-    assertLargerEq(val, other, std::string(__func__) + " [" + __FILE__ + ":" + std::to_string(__LINE__) + "] " + #val)
-
-#define ASSERT_SMALLER(val, other) \
-    assertSmaller(val, other, std::string(__func__) + " [" + __FILE__ + ":" + std::to_string(__LINE__) + "] " + #val)
-
-#define ASSERT_IN_RANGE(val, range) \
-    assertInRange(val, range, std::string(__func__) + " [" + __FILE__ + ":" + std::to_string(__LINE__) + "] " + #val)
 #endif
 
 }  // namespace utils

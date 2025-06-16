@@ -10,10 +10,13 @@ target_include_directories(utils
             ${CMAKE_CURRENT_SOURCE_DIR}/src
 )
 
+target_compile_definitions(utils PRIVATE USE_TBB)
 target_link_libraries(utils
         PUBLIC
             HDF5::HDF5
             Eigen3::Eigen
+            TBB::tbb
+
 )
 
 install(TARGETS utils EXPORT flashlightTargets)

@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.29)
-project(lightning)
+project(FlashLight)
 project(ElectronsHDF5Fortran LANGUAGES C CXX Fortran)
 
 # Set C++ standart
@@ -29,6 +29,9 @@ include(cmake/ConfigEigen.cmake)
 
 # Include the Boost configuration file
 include(cmake/ConfigBoost.cmake)
+
+# Include TBB
+include(cmake/TBB.cmake)
 
 # Include libraries
 add_subdirectory(libs)

@@ -3,11 +3,10 @@
 #include <config/nodes/Input.h>
 #include <config/nodes/Output.h>
 #include <config/parameters/Vector.h>
-#include <physics/ElectronData.h>
-#include <physics/ElectronIndex.h>
 #include <utils/IndexMap.h>
-#include <yaml-cpp/yaml.h>
+#include <dataProcessing/access.h>
 
+#include <yaml-cpp/yaml.h>
 #include <Eigen/Dense>
 #include <array>
 #include <boost/program_options.hpp>
@@ -18,8 +17,7 @@
 
 namespace po = boost::program_options;
 namespace fc = flashlight::config;
-namespace fp = flashlight::physics;
-namespace fu = flashlight::utils;
+namespace fd = flashlight::dataProcessing;
 
 /**
  * @brief Parse command line arguments.
@@ -81,42 +79,28 @@ fc::nodes::Output parseOutputConfiguration(std::string configFile) {
     return output;
 }
 
-fp::ElectronData readElectrons(fc::nodes::Input inputConfig, std::string filename) {
-    auto data = fp::ElectronData();
-    try {
-        auto file = H5::H5File(filename, H5F_ACC_RDONLY);
-        data = fp::ElectronData(file);
-    } catch (const std::exception& e) {
-        std::cerr << "Error reading electrons from file " << filename << "\n";
-        std::cout << e.what() << "\n";
-    }
 
-    if (inputConfig.electronicStates.nBands != data.NumBands()) {
-        std::cerr << "Number of bands given in inputConfig is " + std::to_string(inputConfig.electronicStates.nBands) +
-                         ".\n";
-        std::cerr << "Number of bands obtained from " + filename + " is " + std::to_string(data.NumBands()) + ".\n";
-        throw std::exception();
-    }
-    if (inputConfig.electronicStates.kGrid.sampling.prod() != data.NumKpoints()) {
-        std::cerr << "Number of k-points given in inputConfig is " +
-                         std::to_string(inputConfig.electronicStates.kGrid.sampling.prod()) + ".\n";
-        std::cerr << "Number of k-points obtained from " + filename + " is " + std::to_string(data.NumKpoints()) +
-                         ".\n";
-        throw std::exception();
-    }
-
-    return data;
-}
 
 int main(int argc, char* argv[]) {
+    using namespace flashlight::utils;
+
     std::cout << "Hello World" << std::endl;
     auto cmdArgs = parseCommandLine(argc, argv);
 
-    auto inputConfig = parseInputConfiguration(cmdArgs["input-config"]);
-    auto outputConfig = parseOutputConfiguration(cmdArgs["output-config"]);
+    // Implementing independent particle apprixmation
 
-    auto electronData = readElectrons(inputConfig, "electrons.h5");
-    std::cout << "electrons read" << std::endl;
+    // 1. Read $\epsilon_{i\mathbf{k}}$
+    const std::string filename = "electrons.h5"; // yet a constant
+    index_t numKpoints = 0;
+    index_t numElectrons = 0;
+    vector_t<real_t> energies;
+    vector_t<real_t> occupations;
+    auto file = H5::H5File(filename, H5F_ACC_RDONLY);
+    fd::readElectrons(file, numKpoints, numElectrons,
+                      energies, occupations);
+
+
+
 
     return 0;
 }
